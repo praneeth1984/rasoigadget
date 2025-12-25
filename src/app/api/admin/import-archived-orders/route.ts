@@ -23,10 +23,11 @@ export async function POST(request: NextRequest) {
     let imported = 0;
     let skipped = 0;
 
-    for (const record of records as any[]) {
+    for (const record of (records as any[])) {
+      const rec = record as any;
       try {
         // Parse the order number (remove # prefix)
-        const orderNumber = record['Name']?.replace('#', '') || '';
+        const orderNumber = rec['Name']?.replace('#', '') || '';
         
         if (!orderNumber) {
           skipped++;
@@ -44,46 +45,46 @@ export async function POST(request: NextRequest) {
         }
 
         // Parse dates
-        const createdAt = record['Created at'] ? new Date(record['Created at']) : new Date();
-        const paidAt = record['Paid at'] ? new Date(record['Paid at']) : null;
+        const createdAt = rec['Created at'] ? new Date(rec['Created at']) : new Date();
+        const paidAt = rec['Paid at'] ? new Date(rec['Paid at']) : null;
 
         // Create archived order
         await prisma.archivedOrder.create({
           data: {
             orderNumber,
-            customerName: record['Billing Name'] || null,
-            customerEmail: record['Email'] || null,
-            customerPhone: record['Phone'] || record['Billing Phone'] || null,
-            financialStatus: record['Financial Status'] || null,
+            customerName: rec['Billing Name'] || null,
+            customerEmail: rec['Email'] || null,
+            customerPhone: rec['Phone'] || rec['Billing Phone'] || null,
+            financialStatus: rec['Financial Status'] || null,
             paidAt,
-            fulfillmentStatus: record['Fulfillment Status'] || null,
+            fulfillmentStatus: rec['Fulfillment Status'] || null,
             createdAt,
-            subtotal: parseFloat(record['Subtotal']) || null,
-            shipping: parseFloat(record['Shipping']) || null,
-            taxes: parseFloat(record['Taxes']) || null,
-            total: parseFloat(record['Total']) || null,
-            discountCode: record['Discount Code'] || null,
-            discountAmount: parseFloat(record['Discount Amount']) || null,
-            paymentMethod: record['Payment Method'] || null,
-            paymentReference: record['Payment Reference'] || null,
-            billingAddress: record['Billing Address1'] || null,
-            billingCity: record['Billing City'] || null,
-            billingState: record['Billing Province'] || null,
-            billingZip: record['Billing Zip'] || null,
-            billingCountry: record['Billing Country'] || null,
-            shippingAddress: record['Shipping Address1'] || null,
-            shippingCity: record['Shipping City'] || null,
-            shippingState: record['Shipping Province'] || null,
-            shippingZip: record['Shipping Zip'] || null,
-            shippingCountry: record['Shipping Country'] || null,
-            productName: record['Lineitem name'] || null,
-            quantity: parseInt(record['Lineitem quantity']) || null,
+            subtotal: parseFloat(rec['Subtotal']) || null,
+            shipping: parseFloat(rec['Shipping']) || null,
+            taxes: parseFloat(rec['Taxes']) || null,
+            total: parseFloat(rec['Total']) || null,
+            discountCode: rec['Discount Code'] || null,
+            discountAmount: parseFloat(rec['Discount Amount']) || null,
+            paymentMethod: rec['Payment Method'] || null,
+            paymentReference: rec['Payment Reference'] || null,
+            billingAddress: rec['Billing Address1'] || null,
+            billingCity: rec['Billing City'] || null,
+            billingState: rec['Billing Province'] || null,
+            billingZip: rec['Billing Zip'] || null,
+            billingCountry: rec['Billing Country'] || null,
+            shippingAddress: rec['Shipping Address1'] || null,
+            shippingCity: rec['Shipping City'] || null,
+            shippingState: rec['Shipping Province'] || null,
+            shippingZip: rec['Shipping Zip'] || null,
+            shippingCountry: rec['Shipping Country'] || null,
+            productName: rec['Lineitem name'] || null,
+            quantity: parseInt(rec['Lineitem quantity']) || null,
           },
         });
 
         imported++;
       } catch (error) {
-        console.error(`Error importing order ${record['Name']}:`, error);
+        console.error(`Error importing order ${rec['Name']}:`, error);
         skipped++;
       }
     }
