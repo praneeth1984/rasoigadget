@@ -50,7 +50,7 @@ export default async function Home() {
           <div className="text-center mb-6">
             <div className="inline-block bg-gradient-to-r from-urgent-red to-urgent-orange border border-urgent-red/50 rounded-full px-6 py-2 animate-pulse">
               <p className="text-white font-bold text-sm md:text-base">
-                🔥 FLASH SALE: {discountPercentage}% OFF - Ends in Hours!
+                🔥 FLASH SALE: {totalDiscountPercentage}% OFF - Ends in Hours!
               </p>
             </div>
           </div>
@@ -97,18 +97,18 @@ export default async function Home() {
               <div className="bg-gradient-to-br from-dark-elevated to-dark-card border-2 border-gold/50 rounded-xl p-4 md:p-6 mb-6 shadow-xl relative overflow-hidden">
                 {/* Mobile Savings Tag */}
                 <div className="md:hidden absolute top-0 right-0 bg-urgent-red text-white px-3 py-1 text-[10px] font-bold rounded-bl-lg">
-                  {discountPercentage}% OFF
+                  {totalDiscountPercentage}% OFF
                 </div>
                 
                 <div className="text-center mb-4">
                   <p className="text-text-muted text-xs md:text-sm mb-1 uppercase tracking-wider">Complete 3-Book Collection</p>
                   <div className="flex items-center justify-center gap-3 mb-1 md:mb-2">
-                    <span className="text-xl md:text-2xl line-through text-text-muted opacity-60">₹{originalPrice.toLocaleString('en-IN')}</span>
-                    <span className="hidden md:inline-block bg-urgent-red text-white px-3 py-1 rounded-full text-sm font-bold">{discountPercentage}% OFF</span>
+                    <span className="text-xl md:text-2xl line-through text-text-muted opacity-60">₹{totalValue.toLocaleString('en-IN')}</span>
+                    <span className="hidden md:inline-block bg-urgent-red text-white px-3 py-1 rounded-full text-sm font-bold">{totalDiscountPercentage}% OFF</span>
                   </div>
                   <p className="text-4xl md:text-6xl font-bold text-gold mb-1 md:mb-2">₹{productPrice}</p>
                   <p className="text-emerald font-semibold text-lg md:text-xl">
-                    Save ₹{savings.toLocaleString('en-IN')} Today!
+                    Save ₹{totalSavings.toLocaleString('en-IN')} Today!
                   </p>
                 </div>
 
@@ -161,7 +161,7 @@ export default async function Home() {
                 <div className="absolute -top-4 -right-2 md:-right-4 bg-gradient-to-br from-urgent-red to-urgent-orange text-white rounded-full w-20 h-20 md:w-24 md:h-24 flex items-center justify-center shadow-lg transform rotate-12 pulse-glow z-20">
                   <div className="text-center">
                     <p className="text-[10px] md:text-xs font-semibold">SAVE</p>
-                    <p className="text-2xl md:text-3xl font-bold">{discountPercentage}%</p>
+                    <p className="text-2xl md:text-3xl font-bold">{totalDiscountPercentage}%</p>
                   </div>
                 </div>
               </div>
@@ -417,7 +417,7 @@ export default async function Home() {
                 <p className="text-6xl font-bold text-white mb-2">₹{productPrice}</p>
                 <p className="text-white/70 line-through mb-4 text-lg">₹{totalValue.toLocaleString('en-IN')}</p>
                 <div className="bg-gold/20 border border-gold/50 rounded-lg p-3 mb-4">
-                  <p className="text-white text-sm font-semibold">⚡ {discountPercentage}% OFF Ends Soon!</p>
+                  <p className="text-white text-sm font-semibold">⚡ {totalDiscountPercentage}% OFF Ends Soon!</p>
                 </div>
               </div>
             </div>
