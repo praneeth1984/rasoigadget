@@ -22,7 +22,7 @@ export default function BuyButton({
 }: BuyButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productPrice, setProductPrice] = useState(499);
-  const { initiatePayment, isLoading } = useRazorpay();
+  const { initiatePayment, isLoading, isVerifying } = useRazorpay();
 
   useEffect(() => {
     // Fetch product price on mount
@@ -82,6 +82,29 @@ export default function BuyButton({
         onConfirm={handleConfirmOrder}
         amount={productPrice}
       />
+
+      {isVerifying && (
+        <div className="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-dark/90 backdrop-blur-md">
+          <div className="relative">
+            <div className="w-20 h-20 border-4 border-satvik-green/20 border-t-satvik-green rounded-full animate-spin"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <svg className="w-8 h-8 text-satvik-green animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <h3 className="mt-6 text-2xl font-bold text-white">Verifying Payment...</h3>
+          <p className="mt-2 text-text-secondary text-center px-6">
+            Please do not refresh or close this window.<br />
+            We&apos;re finalizing your order and preparing your downloads.
+          </p>
+          <div className="mt-8 flex gap-2">
+            <span className="w-2 h-2 bg-satvik-green rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+            <span className="w-2 h-2 bg-satvik-green rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-2 h-2 bg-satvik-green rounded-full animate-bounce"></span>
+          </div>
+        </div>
+      )}
     </>
   );
 }

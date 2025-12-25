@@ -8,6 +8,7 @@ import { getCurrentUser } from '@/lib/auth';
 
 export const useRazorpay = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
   const router = useRouter();
 
   const initiatePayment = async (amount: number, customerInfo?: { name: string; email: string; contact: string; state: string }) => {
@@ -43,6 +44,7 @@ export const useRazorpay = () => {
         },
         handler: async (response: any) => {
           try {
+            setIsVerifying(true);
             // Verify payment
             const verificationData = await verifyPayment({
               razorpay_order_id: response.razorpay_order_id,
@@ -69,10 +71,12 @@ export const useRazorpay = () => {
                 `/success?payment_id=${verificationData.paymentId}&order_id=${verificationData.orderId}&email=${encodeURIComponent(customerInfo?.email || options.prefill?.email || '')}`
               );
             } else {
+              setIsVerifying(false);
               alert('Payment verification failed. Please contact support.');
             }
           } catch (error) {
             console.error('Payment verification error:', error);
+            setIsVerifying(false);
             alert('Payment verification failed. Please contact support.');
           }
         },
@@ -105,5 +109,6 @@ export const useRazorpay = () => {
   return {
     initiatePayment,
     isLoading,
+    isVerifying,
   };
 };
