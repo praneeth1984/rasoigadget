@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     let imported = 0;
     let skipped = 0;
 
-    for (const record of records) {
+    for (const record of records as any[]) {
       try {
         // Parse the order number (remove # prefix)
         const orderNumber = record['Name']?.replace('#', '') || '';
