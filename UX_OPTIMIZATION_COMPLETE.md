@@ -25,7 +25,7 @@
 
 ```
 "Lose Weight, Boost Energy & Heal Your Gut in 21 Days
-with 150+ Ancient Indian Recipes"
+with 250+ Ancient Indian Recipes"
 
 Subheadline:
 "No restrictive diets. No expensive ingredients.

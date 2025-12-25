@@ -66,7 +66,7 @@ export default function FoodGallery() {
           See What You'll Be Cooking
         </h2>
         <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-          150+ mouth-watering recipes that are as beautiful as they are nutritious
+          250+ mouth-watering recipes that are as beautiful as they are nutritious
         </p>
       </div>
 
@@ -123,7 +123,7 @@ export default function FoodGallery() {
           This is just a small preview!
         </p>
         <p className="text-text-secondary mb-4">
-          Get access to all 150+ recipes with step-by-step instructions, ingredient lists, and nutritional information
+          Get access to all 250+ recipes with step-by-step instructions, ingredient lists, and nutritional information
         </p>
         <div className="flex items-center justify-center gap-4 text-sm text-text-muted">
           <div className="flex items-center gap-1">

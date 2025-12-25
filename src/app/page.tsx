@@ -201,7 +201,7 @@ export default async function Home() {
             {
               number: "01",
               title: "Satvik Foundations",
-              pages: "186 pages • 50+ recipes",
+              pages: "207 pages • 100 recipes",
               highlight: "Perfect for Beginners",
               features: [
                 "Understanding Satvik principles",
@@ -213,7 +213,7 @@ export default async function Home() {
             {
               number: "02",
               title: "Celebration & Festivities",
-              pages: "214 pages • 60+ recipes",
+              pages: "106 pages • 50 recipes",
               highlight: "Special Occasions",
               features: [
                 "Traditional festival recipes",
@@ -225,7 +225,7 @@ export default async function Home() {
             {
               number: "03",
               title: "Daily Wellness",
-              pages: "192 pages • 40+ recipes",
+              pages: "206 pages • 100 recipes",
               highlight: "Optimize Health",
               features: [
                 "Healing recipes for ailments",
