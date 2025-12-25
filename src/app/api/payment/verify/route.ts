@@ -5,6 +5,9 @@ import { sendInvoiceEmail } from '@/lib/mail';
 
 export async function POST(request: NextRequest) {
   try {
+    const body = await request.json();
+    console.log(`[VERIFY] Incoming verification request for Razorpay Order: ${body.razorpay_order_id}`);
+    
     const {
       razorpay_order_id,
       razorpay_payment_id,
@@ -14,7 +17,7 @@ export async function POST(request: NextRequest) {
       customer_phone,
       customer_state,
       amount,
-    } = await request.json();
+    } = body;
 
     // Create signature
     const sign = razorpay_order_id + '|' + razorpay_payment_id;
@@ -83,36 +86,41 @@ export async function POST(request: NextRequest) {
         } as any,
       });
 
+      console.log(`[VERIFY] Order ${order.id} marked as completed. Attempting to send invoice email...`);
+
       // Send confirmation email with invoice link and log it
-      sendInvoiceEmail(order)
-        .then(async () => {
-          // Log successful email send
-          await prisma.emailLog.create({
-            data: {
-              orderId: order.id,
-              recipientEmail: order.customerEmail,
-              emailType: 'invoice',
-              subject: `Your Order Confirmation & Invoice - #${order.id}`,
-              status: 'sent',
-              sentBy: 'system',
-            },
-          });
-        })
-        .catch(async (mailError) => {
-          console.error('Failed to send confirmation email:', mailError);
-          // Log failed email attempt
-          await prisma.emailLog.create({
-            data: {
-              orderId: order.id,
-              recipientEmail: order.customerEmail,
-              emailType: 'invoice',
-              subject: `Your Order Confirmation & Invoice - #${order.id}`,
-              status: 'failed',
-              errorMessage: mailError instanceof Error ? mailError.message : 'Unknown error',
-              sentBy: 'system',
-            },
-          });
+      try {
+        await sendInvoiceEmail(order);
+        
+        console.log(`[VERIFY] Invoice email sent successfully for order: ${order.id}`);
+
+        // Log successful email send
+        await prisma.emailLog.create({
+          data: {
+            orderId: order.id,
+            recipientEmail: order.customerEmail,
+            emailType: 'invoice',
+            subject: `Your Order Confirmation & Invoice - #${order.id}`,
+            status: 'sent',
+            sentBy: 'system',
+          },
         });
+      } catch (mailError) {
+        console.error(`[VERIFY] Failed to send confirmation email for order ${order.id}:`, mailError);
+        
+        // Log failed email attempt
+        await prisma.emailLog.create({
+          data: {
+            orderId: order.id,
+            recipientEmail: order.customerEmail,
+            emailType: 'invoice',
+            subject: `Your Order Confirmation & Invoice - #${order.id}`,
+            status: 'failed',
+            errorMessage: mailError instanceof Error ? mailError.message : 'Unknown error',
+            sentBy: 'system',
+          },
+        });
+      }
 
       return NextResponse.json({
         success: true,

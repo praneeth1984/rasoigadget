@@ -12,6 +12,16 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendInvoiceEmail(order: any, ccEmails?: string[]) {
+  console.log(`[MAIL] Preparing to send invoice email for order ID: ${order.id}, Number: ${order.orderNumber}, Email: ${order.customerEmail}`);
+  console.log(`[MAIL] Order details received:`, JSON.stringify({
+    id: order.id,
+    orderNumber: order.orderNumber,
+    customerEmail: order.customerEmail,
+    customerName: order.customerName,
+    productName: order.productName,
+    amount: order.amount
+  }));
+
   const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/orders/${order.id}/invoice`;
 
   const mailOptions = {
