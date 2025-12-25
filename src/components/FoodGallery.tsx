@@ -17,45 +17,38 @@ export default function FoodGallery() {
   const recipes = [
     {
       category: 'breakfast',
-      name: 'Satvik Breakfast Bowl',
-      description: 'Energizing morning meal',
-      image: '/images/food/breakfast-bowl.jpg',
-      time: '15 min'
-    },
-    {
-      category: 'lunch',
-      name: 'Traditional Thali',
-      description: 'Complete balanced meal',
-      image: '/images/food/thali.jpg',
-      time: '30 min'
-    },
-    {
-      category: 'snacks',
-      name: 'Healthy Snack Platter',
-      description: 'Guilt-free munching',
-      image: '/images/food/snacks.jpg',
-      time: '10 min'
-    },
-    {
-      category: 'lunch',
-      name: 'Vegetable Curry',
-      description: 'Aromatic & nutritious',
-      image: '/images/food/curry.jpg',
-      time: '25 min'
-    },
-    {
-      category: 'desserts',
-      name: 'Satvik Sweet Treats',
-      description: 'Natural sweetness',
-      image: '/images/food/sweets.jpg',
+      name: 'Ragi Dosa',
+      description: 'Iron-rich finger millet crepes',
+      image: '/images/food/breakfast-ragi-dosa.png',
       time: '20 min'
     },
     {
-      category: 'breakfast',
-      name: 'Fresh Fruit Bowl',
-      description: 'Vitamin-packed start',
-      image: '/images/food/fruits.jpg',
-      time: '5 min'
+      category: 'lunch',
+      name: 'Pumpkin Porridge',
+      description: 'Soothing Oats & Pumpkin blend',
+      image: '/images/food/dinner-oats-pumkin-porridge.png',
+      time: '15 min'
+    },
+    {
+      category: 'snacks',
+      name: 'Roasted Makhana',
+      description: 'Crunchy Foxnuts with Turmeric',
+      image: '/images/food/snacks-roasted-makhana.png',
+      time: '10 min'
+    },
+    {
+      category: 'desserts',
+      name: 'Dry Fruit Bar',
+      description: 'Nutrient-dense natural energy bar',
+      image: '/images/food/dessert-dry-fruit-bar.png',
+      time: '15 min'
+    },
+    {
+      category: 'desserts',
+      name: 'Ragi Laddu',
+      description: 'Wholesome Millet & Jaggery balls',
+      image: '/images/food/dessert-ragi-laddu.png',
+      time: '20 min'
     }
   ];
 

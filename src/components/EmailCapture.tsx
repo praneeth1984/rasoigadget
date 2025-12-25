@@ -11,16 +11,30 @@ export default function EmailCapture() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call (replace with actual implementation)
-    setTimeout(() => {
-      setIsSubmitted(true);
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSubmitted(true);
+        // Store in localStorage for persistence and pre-filling
+        localStorage.setItem('emailCaptured', 'true');
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('discountCode', data.discountCode);
+      } else {
+        alert(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting lead:', error);
+      alert('Failed to connect to the server. Please try again.');
+    } finally {
       setIsLoading(false);
-      
-      // Store in localStorage to show discount code and for pre-fill
-      localStorage.setItem('emailCaptured', 'true');
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('discountCode', 'SATVIK50');
-    }, 1000);
+    }
   };
 
   if (isSubmitted) {
@@ -33,10 +47,16 @@ export default function EmailCapture() {
         </div>
         <h3 className="text-2xl font-bold text-text-primary mb-2">Check Your Email! 📧</h3>
         <p className="text-text-secondary mb-4">
-          We've sent you a sample recipe and your exclusive discount code: <span className="text-gold font-bold">SATVIK50</span>
+          We've sent you a sample recipe and your exclusive discount code: <span className="text-gold font-bold">SATVIK10</span>
         </p>
-        <p className="text-sm text-text-muted">
-          (Use this code at checkout for an extra 5% off)
+        <a 
+          href="/free-sample" 
+          className="inline-block px-6 py-2 bg-satvik-green text-white font-bold rounded-full hover:bg-satvik-green-dark transition-colors mb-4"
+        >
+          View Free Sampler Now →
+        </a>
+        <p className="text-xs text-text-muted">
+          (Use <b>SATVIK10</b> at checkout for an extra 10% off)
         </p>
       </div>
     );

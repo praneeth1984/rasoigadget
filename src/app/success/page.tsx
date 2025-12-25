@@ -48,48 +48,55 @@ function SuccessContent() {
           )}
 
           {/* Download Section */}
-          <div className="bg-gradient-to-br from-satvik-green/20 to-saffron-orange/20 rounded-xl p-8 mb-8 border border-satvik-green/30">
+          <div className="bg-gradient-to-br from-satvik-green/20 to-saffron-orange/20 rounded-xl p-6 md:p-8 mb-8 border border-satvik-green/30">
             <h2 className="text-2xl font-bold text-satvik-green mb-4">
               Download Your Books
             </h2>
             <p className="text-text-secondary mb-6">
-              Click the buttons below to download each book. All three books are included in your purchase.
+              Click the boxes below to download your complete Satvik collection and bonuses.
             </p>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
               {[
-                { title: 'Book 1: Satvik Foundations', filename: 'satvik-foundations.pdf' },
-                { title: 'Book 2: Celebration & Festivities', filename: 'satvik-celebrations.pdf' },
-                { title: 'Book 3: Daily Wellness', filename: 'satvik-wellness.pdf' },
+                { title: 'Satvik 4-in-1 Meal Book', filename: 'Satvik_4_in1_Meal_BookFinal.pdf' },
+                { title: 'Satvik Protein Book', filename: 'Satvik_Protein_BookFinal.pdf' },
+                { title: 'Satvik Dessert Book', filename: 'Satvik_Dessert_Book_Final.pdf' },
+                { title: 'Kids Meal Planner', filename: 'Kids-Meal-Planner.pdf', isBonus: true },
+                { title: 'Monthly Meal Planner', filename: 'Monthly-Meal-Planner.pdf', isBonus: true },
               ].map((book, index) => (
                 <a
                   key={index}
                   href={`/downloads/${book.filename}`}
                   download
-                  className="bg-dark-elevated hover:bg-dark-surface border border-satvik-green/30 hover:border-satvik-green rounded-lg p-4 transition-all group"
+                  className={`bg-dark-elevated hover:bg-dark-surface border rounded-lg p-4 transition-all group text-left ${book.isBonus ? 'border-saffron-orange/30 hover:border-saffron-orange' : 'border-satvik-green/30 hover:border-satvik-green'}`}
                 >
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <svg className="w-6 h-6 text-satvik-green" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-satvik-green font-semibold group-hover:text-satvik-green-light">Download</span>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className={`p-2 rounded-lg ${book.isBonus ? 'bg-saffron-orange/10 text-saffron-orange' : 'bg-satvik-green/10 text-satvik-green'}`}>
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <span className={`text-xs font-bold uppercase tracking-wider ${book.isBonus ? 'text-saffron-orange' : 'text-satvik-green'}`}>
+                        {book.isBonus ? 'Bonus' : 'Main Book'}
+                      </span>
+                      <p className="text-text-primary font-semibold text-sm line-clamp-1 group-hover:text-satvik-green transition-colors">{book.title}</p>
+                    </div>
                   </div>
-                  <p className="text-text-secondary text-sm">{book.title}</p>
                 </a>
               ))}
             </div>
 
-            <div className="mt-6 p-4 bg-dark-surface rounded-lg border border-saffron-orange/30">
-              <div className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-saffron-orange flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <div className="text-left">
-                  <p className="text-text-primary font-semibold mb-1">Bonus Materials Included!</p>
-                  <p className="text-text-secondary text-sm">
-                    Check your email for the bonus meal planning guide, recipe cards, and shopping guides.
-                  </p>
+            <div className="p-4 bg-dark-bg/50 rounded-lg border border-satvik-green/20">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-satvik-green/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-satvik-green" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
                 </div>
+                <p className="text-text-secondary text-sm text-left">
+                  Files are in PDF format. We recommend saving them to your device immediately.
+                </p>
               </div>
             </div>
           </div>

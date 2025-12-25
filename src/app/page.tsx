@@ -48,31 +48,31 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Left Column */}
             <div className="order-2 md:order-1">
-              {/* IMPROVED HEADLINE */}
+              {/* HEADLINE */}
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4 md:mb-6 leading-tight text-center md:text-left">
                 Lose Weight, Boost Energy & Heal Your Gut in 21 Days{" "}
                 <span className="bg-gradient-to-r from-royal-purple-light to-gold bg-clip-text text-transparent">
-                  with 150+ Ancient Indian Recipes
+                  with 250+ Ancient Satvik Recipes
                 </span>
               </h1>
               
-              {/* IMPROVED SUBHEADLINE */}
+              {/* SUBHEADLINE */}
               <p className="text-lg md:text-2xl text-text-secondary mb-6 leading-relaxed text-center md:text-left">
-                No restrictive diets. No expensive ingredients. Just delicious meals that actually work.
+                No Onion. No Garlic. No Refined Sugar. Just 100% pure, delicious meals that actually work.
               </p>
 
-              {/* Trust Badges - Above Fold */}
-              <div className="mb-6">
+              {/* Trust Badges - Hidden on mobile for brevity */}
+              <div className="mb-6 hidden md:block">
                 <TrustBadges />
               </div>
-
+              
               {/* Key Benefits */}
               <ul className="space-y-3 mb-8">
                 {[
-                  "Feel more energized within the first week",
-                  "Improve digestion and reduce bloating in 2-4 weeks",
-                  "Learn 150+ recipes from certified Ayurvedic practitioners",
-                  "Get lifetime free updates + ₹500 in bonuses"
+                  "100 Main Meals (Breakfast, Lunch & Dinner)",
+                  "100 High-Protein Satvik Recipes (Sattu, Sprouts, Grains)",
+                  "50 Guilt-Free Desserts (Zero Refined Sugar)",
+                  "Bonus: 30-Day Meal Planner + Kids Guide"
                 ].map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <svg className="w-6 h-6 text-emerald flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -335,24 +335,14 @@ export default async function Home() {
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
           {[
             {
-              title: "30-Day Meal Planning Guide",
-              value: "₹200",
-              description: "Complete meal plans with shopping lists. No more \"what's for dinner?\" stress!"
+              title: "Monthly Satvik Meal Planner",
+              value: "₹250",
+              description: "The complete blueprint for your daily Satvik journey. Just open and follow!"
             },
             {
-              title: "Spice & Ingredient Substitution Chart",
-              value: "₹100",
-              description: "Can't find an ingredient? This chart shows you perfect alternatives."
-            },
-            {
-              title: "Quick Reference Recipe Cards",
-              value: "₹150",
-              description: "Printable cards for your 20 most-used recipes. Kitchen-ready!"
-            },
-            {
-              title: "Seasonal Shopping Guides",
-              value: "₹50",
-              description: "Know exactly what to buy each season for best results."
+              title: "Kids Special Satvik Guide",
+              value: "₹250",
+              description: "Ancient nutrition for the modern generation. Kid-approved healthy recipes!"
             }
           ].map((bonus, index) => (
             <div key={index} className="bg-dark-elevated rounded-xl p-6 border-2 border-gold/30 relative overflow-hidden hover:border-gold/50 transition">
@@ -420,10 +410,10 @@ export default async function Home() {
                 <h3 className="text-xl font-bold text-white mb-4">You Get Everything:</h3>
                 <ul className="space-y-2 text-white/90">
                   {[
-                    "All 3 books (592 pages total)",
-                    "150+ authentic recipes",
-                    "₹500 in exclusive bonuses",
-                    "Lifetime free updates",
+                    "Satvik 4-in-1 Meal Book (Main Guide)",
+                    "Satvik Protein Book (Health & Muscle)",
+                    "Satvik Dessert Book (Daily Treats)",
+                    "2 Exclusive Planners (Bonus)",
                     "30-day money-back guarantee"
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2">
