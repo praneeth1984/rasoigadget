@@ -56,6 +56,9 @@ export default function AdminDashboard() {
   const [settings, setSettings] = useState<{ productImage?: string; nextOrderNumber?: string; productPrice?: string }>({});
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
+  const [testEmail, setTestEmail] = useState('');
+  const [isTestingEmail, setIsTestingEmail] = useState(false);
+  const [testEmailMessage, setTestEmailMessage] = useState({ text: '', type: '' });
 
   useEffect(() => {
     if (!isAdmin()) {
@@ -106,6 +109,36 @@ export default function AdminDashboard() {
       setSaveMessage('Error updating setting');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleTestEmail = async () => {
+    if (!testEmail) {
+      setTestEmailMessage({ text: 'Please enter an email address', type: 'error' });
+      return;
+    }
+
+    setIsTestingEmail(true);
+    setTestEmailMessage({ text: '', type: '' });
+
+    try {
+      const response = await fetch('/api/admin/test-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: testEmail }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setTestEmailMessage({ text: 'Test email sent successfully!', type: 'success' });
+      } else {
+        setTestEmailMessage({ text: data.message || 'Failed to send test email', type: 'error' });
+      }
+    } catch (error) {
+      console.error('Error sending test email:', error);
+      setTestEmailMessage({ text: 'Error sending test email', type: 'error' });
+    } finally {
+      setIsTestingEmail(false);
     }
   };
 
@@ -512,6 +545,37 @@ export default function AdminDashboard() {
                         </span>
                       )}
                     </div>
+                  </div>
+
+                  <hr className="border-satvik-green/10" />
+
+                  <div>
+                    <h4 className="text-xl font-bold text-text-primary mb-4">Email Delivery Test</h4>
+                    <p className="text-text-secondary text-sm mb-4">
+                      Enter an email address to send a test message. This helps verify your SMTP configuration is correct.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                      <input
+                        type="email"
+                        value={testEmail}
+                        onChange={(e) => setTestEmail(e.target.value)}
+                        placeholder="test@example.com"
+                        className="flex-1 px-4 py-3 bg-dark-surface border border-satvik-green/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-satvik-green transition-colors"
+                      />
+                      <Button 
+                        onClick={handleTestEmail}
+                        loading={isTestingEmail}
+                        disabled={isTestingEmail}
+                        variant="secondary"
+                      >
+                        Send Test Email
+                      </Button>
+                    </div>
+                    {testEmailMessage.text && (
+                      <p className={`text-sm font-medium ${testEmailMessage.type === 'error' ? 'text-red-400' : 'text-emerald'}`}>
+                        {testEmailMessage.text}
+                      </p>
+                    )}
                   </div>
 
                   {settings.productImage && (

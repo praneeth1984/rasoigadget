@@ -133,3 +133,37 @@ export async function sendSampleEmail(email: string, discountCode: string) {
     return { success: false, error };
   }
 }
+
+export async function sendTestEmail(email: string) {
+  const mailOptions = {
+    from: process.env.SMTP_FROM || '"Rasoi Gadget" <noreply@rasoigadget.com>',
+    to: email,
+    subject: "🧪 Test Email from Rasoi Gadget Administrator",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee;">
+        <h2 style="color: #9FCC7C;">Email Configuration Test</h2>
+        <p>This is a test email sent from the Rasoi Gadget Admin Dashboard.</p>
+        <p>If you are receiving this, it means your SMTP configuration is <strong>working correctly</strong>.</p>
+        
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="margin: 5px 0;"><strong>Timestamp:</strong> ${new Date().toLocaleString('en-IN')}</p>
+          <p style="margin: 5px 0;"><strong>Environment:</strong> ${process.env.NODE_ENV}</p>
+        </div>
+
+        <p>You can now safely expect order confirmations and invoices to be delivered to your customers.</p>
+        
+        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+        <p style="font-size: 12px; color: #777; text-align: center;">Rasoi Gadget India</p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Test email sent to ${email}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending test email:', error);
+    return { success: false, error };
+  }
+}
