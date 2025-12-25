@@ -528,7 +528,7 @@ export default function AdminDashboard() {
                   )}
                 </div>
               </div>
-            ) : (
+            ) : activeTab === 'contacts' ? (
               <>
                 {/* Search contacts */}
                 <div className="bg-dark-elevated rounded-2xl p-6 mb-6 border border-satvik-green/20">
