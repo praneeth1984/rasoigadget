@@ -74,10 +74,10 @@ export async function sendInvoiceEmail(order: any, ccEmails?: string[]) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Invoice email sent to ${order.customerEmail}`);
+    console.log(`[MAIL] Invoice email successfully sent to: ${order.customerEmail}`);
     return { success: true };
   } catch (error) {
-    console.error('Error sending invoice email:', error);
+    console.error(`[MAIL] Failed to send invoice email to: ${order.customerEmail}`, error);
     return { success: false, error };
   }
 }
@@ -126,10 +126,10 @@ export async function sendSampleEmail(email: string, discountCode: string) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Sample email sent to ${email}`);
+    console.log(`[MAIL] Sample email successfully sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('Error sending sample email:', error);
+    console.error(`[MAIL] Failed to send sample email to: ${email}`, error);
     return { success: false, error };
   }
 }
@@ -160,10 +160,10 @@ export async function sendTestEmail(email: string) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Test email sent to ${email}`);
+    console.log(`[MAIL] Test email successfully sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('Error sending test email:', error);
+    console.error(`[MAIL] Failed to send test email to: ${email}`, error);
     return { success: false, error };
   }
 }

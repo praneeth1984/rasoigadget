@@ -15,11 +15,13 @@ export async function POST(request: NextRequest) {
     const result = await sendTestEmail(email);
 
     if (result.success) {
+      console.log(`[API] Admin test email successfully sent to: ${email}`);
       return NextResponse.json({
         success: true,
         message: `Test email sent successfully to ${email}`,
       });
     } else {
+      console.error(`[API] Admin test email failed for: ${email}`, result.error);
       return NextResponse.json(
         { success: false, message: 'Failed to send test email', error: result.error },
         { status: 500 }
