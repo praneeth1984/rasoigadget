@@ -7,7 +7,7 @@ import { writeFile } from 'fs/promises';
 export async function GET() {
   try {
     const settings = await prisma.setting.findMany();
-    const settingsMap = settings.reduce((acc: any, curr) => {
+    const settingsMap = settings.reduce((acc: any, curr: any) => {
       acc[curr.key] = curr.value;
       return acc;
     }, {});
