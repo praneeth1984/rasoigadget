@@ -12,7 +12,7 @@ export default function Header() {
           <a href="/" className="flex-shrink-0 flex items-center transition hover:opacity-80">
             <div className="relative h-16 w-52 sm:h-18 sm:w-56 md:h-20 md:w-64 lg:h-24 lg:w-80">
               <Image
-                src="https://rasoigadget.com/cdn/shop/files/Updated_Logo-removebg-preview.png?height=82&v=1758460383"
+                src="/rasoi-gadget-logo.jpg"
                 alt="Rasoi Gadget"
                 fill
                 className="object-contain object-left"
