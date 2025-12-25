@@ -29,7 +29,8 @@ model User {
 }
 
 model Order {
-  id                Int      @id @default(autoincrement())
+  id                String   @id @default(cuid())
+  orderNumber       Int?     @unique // Sequential order number for paid orders only (for tax purposes)
   userId            String
   user              User     @relation(fields: [userId], references: [id])
   razorpayOrderId   String   @unique
@@ -52,6 +53,7 @@ model Order {
   @@index([userId])
   @@index([customerEmail])
   @@index([createdAt])
+  @@index([orderNumber])
 }
 
 model OTP {

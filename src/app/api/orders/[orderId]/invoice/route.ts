@@ -8,9 +8,9 @@ export async function GET(
 ) {
   try {
     const params = await props.params;
-    const orderId = parseInt(params.orderId);
+    const orderId = params.orderId;
     
-    if (isNaN(orderId)) {
+    if (!orderId || orderId.trim() === '') {
       return NextResponse.json({ success: false, message: 'Invalid order ID' }, { status: 400 });
     }
 
@@ -107,7 +107,7 @@ export async function GET(
                       <img src="https://rasoigadget.com/cdn/shop/files/Updated_Logo-removebg-preview.png?height=82&v=1758460383" style="height: 60px; filter: invert(0);" alt="Rasoi Gadget">
                     </td>
                     <td>
-                      Invoice #: ${order.id}<br>
+                      Invoice #: ${order.orderNumber}<br>
                       Date: ${new Date(order.createdAt).toLocaleDateString('en-IN')}<br>
                       Status: Paid
                     </td>

@@ -45,10 +45,33 @@ export async function POST(request: NextRequest) {
       const baseAmountPaise = Math.round(totalAmountPaise / 1.18);
       const taxAmountPaise = totalAmountPaise - baseAmountPaise;
 
-      // Update existing pending order record
+      // Get the next sequential order number for paid orders
+      // First check if admin has set a custom starting number
+      const nextOrderSetting = await prisma.setting.findUnique({
+        where: { key: 'nextOrderNumber' },
+      });
+
+      const lastPaidOrder = await prisma.order.findFirst({
+        where: {
+          orderNumber: { not: null },
+        },
+        orderBy: {
+          orderNumber: 'desc',
+        },
+        select: {
+          orderNumber: true,
+        },
+      });
+
+      // Use the highest of: last order number, or admin setting, or default 1112
+      const adminStartNumber = nextOrderSetting ? parseInt(nextOrderSetting.value) - 1 : 1112;
+      const nextOrderNumber = Math.max((lastPaidOrder?.orderNumber || 0), adminStartNumber) + 1;
+
+      // Update existing pending order record with order number
       const order = await prisma.order.update({
         where: { razorpayOrderId: razorpay_order_id },
         data: {
+          orderNumber: nextOrderNumber, // Assign sequential number only for paid orders
           razorpayPaymentId: razorpay_payment_id,
           baseAmount: baseAmountPaise,
           taxAmount: taxAmountPaise,
@@ -83,10 +106,12 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Error verifying payment:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return NextResponse.json(
       {
         success: false,
         message: 'Failed to verify payment',
+        error: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

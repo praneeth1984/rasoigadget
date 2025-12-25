@@ -52,7 +52,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState<'orders' | 'settings' | 'contacts'>('orders');
-  const [settings, setSettings] = useState<{ productImage?: string }>({});
+  const [settings, setSettings] = useState<{ productImage?: string; nextOrderNumber?: string }>({});
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
 
@@ -429,6 +429,38 @@ export default function AdminDashboard() {
                         disabled={isSaving}
                       >
                         Save Configuration
+                      </Button>
+                      {saveMessage && (
+                        <span className={`text-sm font-medium ${saveMessage.includes('Failed') ? 'text-red-400' : 'text-emerald'}`}>
+                          {saveMessage}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Order Number Setting */}
+                  <div>
+                    <label className="block text-text-secondary text-sm font-medium mb-2">
+                      Next Order Number
+                    </label>
+                    <p className="text-text-muted text-xs mb-3">
+                      Set the starting order number for new paid orders. Current orders will not be affected.
+                    </p>
+                    <input
+                      type="number"
+                      value={settings.nextOrderNumber || '1113'}
+                      onChange={(e) => setSettings(prev => ({ ...prev, nextOrderNumber: e.target.value }))}
+                      placeholder="1113"
+                      min="1"
+                      className="w-full px-4 py-3 bg-dark-surface border border-satvik-green/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-satvik-green transition-colors mb-4"
+                    />
+                    <div className="flex items-center gap-4">
+                      <Button 
+                        onClick={() => updateSetting('nextOrderNumber', settings.nextOrderNumber || '1113')}
+                        loading={isSaving}
+                        disabled={isSaving}
+                      >
+                        Update Order Number
                       </Button>
                       {saveMessage && (
                         <span className={`text-sm font-medium ${saveMessage.includes('Failed') ? 'text-red-400' : 'text-emerald'}`}>
