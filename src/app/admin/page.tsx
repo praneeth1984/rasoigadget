@@ -44,15 +44,22 @@ interface Stats {
   uniqueCustomers: number;
 }
 
+interface Lead {
+  id: string;
+  email: string;
+  createdAt: string;
+}
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [user, setUser] = useState(getCurrentUser());
   const [orders, setOrders] = useState<Order[]>([]);
   const [contactRequests, setContactRequests] = useState<ContactRequest[]>([]);
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [stats, setStats] = useState<Stats|null>(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState<'orders' | 'settings' | 'contacts' | 'archived'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'settings' | 'contacts' | 'archived' | 'leads'>('orders');
   const [settings, setSettings] = useState<{ 
     productImage?: string; 
     nextOrderNumber?: string; 
@@ -77,6 +84,7 @@ export default function AdminDashboard() {
       fetchAllOrders();
       fetchSettings();
       fetchContactRequests();
+      fetchLeads();
     }
   }, [router]);
 
@@ -176,6 +184,18 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchLeads = async () => {
+    try {
+      const response = await fetch('/api/admin/leads');
+      const data = await response.json();
+      if (data.success) {
+        setLeads(data.leads);
+      }
+    } catch (error) {
+      console.error('Error fetching leads:', error);
+    }
+  };
+
   const updateContactStatus = async (id: string, status: string) => {
     try {
       const response = await fetch('/api/admin/contact-requests', {
@@ -221,6 +241,10 @@ export default function AdminDashboard() {
     req.message.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const filteredLeads = leads.filter(lead =>
+    lead.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const exportToCSV = () => {
     const headers = ['Date', 'Order ID', 'Payment ID', 'Customer Email', 'Customer Name', 'Phone', 'Amount', 'Status'];
     const rows = orders.map(order => [
@@ -244,6 +268,26 @@ export default function AdminDashboard() {
     const link = document.createElement('a');
     link.href = url;
     link.download = `orders-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+  };
+
+  const exportLeadsToCSV = () => {
+    const headers = ['Date', 'Email'];
+    const rows = leads.map(lead => [
+      new Date(lead.createdAt).toLocaleString('en-IN'),
+      lead.email,
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `leads-${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
   };
 
@@ -287,6 +331,16 @@ export default function AdminDashboard() {
                   }`}
                 >
                   Store Settings
+                </button>
+                <button 
+                  onClick={() => setActiveTab('leads')}
+                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                    activeTab === 'leads' 
+                    ? 'bg-satvik-green text-white shadow-lg shadow-satvik-green/20' 
+                    : 'bg-dark-elevated text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  Leads
                 </button>
                 <button 
                   onClick={() => setActiveTab('contacts')}
@@ -709,6 +763,66 @@ export default function AdminDashboard() {
               </>
             ) : activeTab === 'archived' ? (
               <ArchivedOrdersTab />
+            ) : activeTab === 'leads' ? (
+              <>
+                {/* Search and Export */}
+                <div className="bg-dark-elevated rounded-2xl p-6 mb-6 border border-satvik-green/20">
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search leads by email..."
+                        className="w-full px-4 py-3 bg-dark-surface border border-satvik-green/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-satvik-green transition-colors"
+                      />
+                    </div>
+                    <Button onClick={exportLeadsToCSV} variant="secondary">
+                      Export Leads to CSV
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Leads Table */}
+                <div className="bg-dark-elevated rounded-2xl border border-satvik-green/20 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-dark-surface border-b border-satvik-green/20">
+                        <tr>
+                          <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Date</th>
+                          <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-satvik-green/10">
+                        {filteredLeads.length === 0 ? (
+                          <tr>
+                            <td colSpan={2} className="px-6 py-8 text-center text-text-secondary">
+                              No leads found
+                            </td>
+                          </tr>
+                        ) : (
+                          filteredLeads.map((lead) => (
+                            <tr key={lead.id} className="hover:bg-dark-surface transition-colors">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                {new Date(lead.createdAt).toLocaleString('en-IN', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })}
+                              </td>
+                              <td className="px-6 py-4 text-sm font-medium text-text-primary">
+                                {lead.email}
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
             ) : null}
           </div>
         </div>
