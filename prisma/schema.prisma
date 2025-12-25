@@ -97,6 +97,43 @@ model Setting {
   @@index([key])
 }
 
+model ArchivedOrder {
+  id                String   @id @default(cuid())
+  orderNumber       String   @unique // Original order number from Shopify (e.g., #1112)
+  customerName      String?
+  customerEmail     String?
+  customerPhone     String?
+  financialStatus   String?  // paid, pending, refunded, etc.
+  paidAt            DateTime?
+  fulfillmentStatus String?
+  createdAt         DateTime
+  subtotal          Float?
+  shipping          Float?
+  taxes             Float?
+  total             Float?
+  discountCode      String?
+  discountAmount    Float?
+  paymentMethod     String?
+  paymentReference  String?
+  billingAddress    String?
+  billingCity       String?
+  billingState      String?
+  billingZip        String?
+  billingCountry    String?
+  shippingAddress   String?
+  shippingCity      String?
+  shippingState     String?
+  shippingZip       String?
+  shippingCountry   String?
+  productName       String?
+  quantity          Int?
+  importedAt        DateTime @default(now())
+
+  @@index([orderNumber])
+  @@index([customerEmail])
+  @@index([createdAt])
+}
+
 model ContactRequest {
   id        String   @id @default(cuid())
   name      String

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCurrentUser, clearSession, isAdmin } from '@/lib/auth';
 import Section from '@/components/Section';
+import ArchivedOrdersTab from '@/components/ArchivedOrdersTab';
 import SectionTitle from '@/components/SectionTitle';
 import Button from '@/components/Button';
 
@@ -51,8 +52,8 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState<'orders' | 'settings' | 'contacts'>('orders');
-  const [settings, setSettings] = useState<{ productImage?: string; nextOrderNumber?: string }>({});
+  const [activeTab, setActiveTab] = useState<'orders' | 'settings' | 'contacts' | 'archived'>('orders');
+  const [settings, setSettings] = useState<{ productImage?: string; nextOrderNumber?: string; productPrice?: string }>({});
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
 
@@ -258,6 +259,16 @@ export default function AdminDashboard() {
                   }`}
                 >
                   Contact Requests
+                </button>
+                <button 
+                  onClick={() => setActiveTab('archived')}
+                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                    activeTab === 'archived' 
+                    ? 'bg-satvik-green text-white shadow-lg shadow-satvik-green/20' 
+                    : 'bg-dark-elevated text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  Archived Orders
                 </button>
               </div>
             </div>
@@ -470,6 +481,39 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
+                  {/* Product Price Setting */}
+                  <div>
+                    <label className="block text-text-secondary text-sm font-medium mb-2">
+                      Product Price (₹)
+                    </label>
+                    <p className="text-text-muted text-xs mb-3">
+                      Set the price for the Satvik 3-Book Collection. This will be used throughout the site.
+                    </p>
+                    <input
+                      type="number"
+                      value={settings.productPrice || '499'}
+                      onChange={(e) => setSettings(prev => ({ ...prev, productPrice: e.target.value }))}
+                      placeholder="499"
+                      min="1"
+                      step="1"
+                      className="w-full px-4 py-3 bg-dark-surface border border-satvik-green/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-satvik-green transition-colors mb-4"
+                    />
+                    <div className="flex items-center gap-4">
+                      <Button 
+                        onClick={() => updateSetting('productPrice', settings.productPrice || '499')}
+                        loading={isSaving}
+                        disabled={isSaving}
+                      >
+                        Update Price
+                      </Button>
+                      {saveMessage && (
+                        <span className={`text-sm font-medium ${saveMessage.includes('Failed') ? 'text-red-400' : 'text-emerald'}`}>
+                          {saveMessage}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
                   {settings.productImage && (
                     <div className="mt-8">
                       <p className="text-text-secondary text-sm font-medium mb-4">Preview (approx):</p>
@@ -560,7 +604,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </>
-            )}
+            ) : activeTab === 'archived' ? (
+              <ArchivedOrdersTab />
+            ) : null}
           </div>
         </div>
       </Section>

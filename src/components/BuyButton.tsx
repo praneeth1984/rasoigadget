@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRazorpay } from '@/hooks/useRazorpay';
 import { trackInitiateCheckout } from '@/lib/facebook-pixel';
+import { getProductPrice } from '@/lib/pricing';
 import Button from './Button';
 import CheckoutModal from './CheckoutModal';
 
@@ -20,7 +21,13 @@ export default function BuyButton({
   className,
 }: BuyButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productPrice, setProductPrice] = useState(499);
   const { initiatePayment, isLoading } = useRazorpay();
+
+  useEffect(() => {
+    // Fetch product price on mount
+    getProductPrice().then(setProductPrice);
+  }, []);
 
   const handleBuyClick = () => {
     setIsModalOpen(true);
@@ -29,13 +36,10 @@ export default function BuyButton({
   const handleConfirmOrder = async (data: { name: string; email: string; contact: string; state: string }) => {
     setIsModalOpen(false);
     
-    // Amount in rupees
-    const amount = 499;
-    
     // Track checkout initiation
-    trackInitiateCheckout(amount, 'INR');
+    trackInitiateCheckout(productPrice, 'INR');
     
-    await initiatePayment(amount, data);
+    await initiatePayment(productPrice, data);
   };
 
   return (
@@ -76,7 +80,7 @@ export default function BuyButton({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmOrder}
-        amount={499}
+        amount={productPrice}
       />
     </>
   );
