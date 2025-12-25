@@ -1,10 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { initFacebookPixel, trackPageView } from '@/lib/facebook-pixel';
 
 export default function FacebookPixel() {
+  return (
+    <Suspense fallback={null}>
+      <PixelEvents />
+    </Suspense>
+  );
+}
+
+function PixelEvents() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
