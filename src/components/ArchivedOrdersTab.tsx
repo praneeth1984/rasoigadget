@@ -19,6 +19,8 @@ export default function ArchivedOrdersTab() {
   const [file, setFile] = useState<File | null>(null);
   const [archivedOrders, setArchivedOrders] = useState<ArchivedOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
 
   useEffect(() => {
     fetchArchivedOrders();
@@ -35,6 +37,25 @@ export default function ArchivedOrdersTab() {
       console.error('Error fetching archived orders:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const toggleOrderDetails = async (orderId: string) => {
+    if (expandedOrderId === orderId) {
+      setExpandedOrderId(null);
+      setSelectedOrder(null);
+    } else {
+      setExpandedOrderId(orderId);
+      // Fetch full order details
+      try {
+        const response = await fetch(`/api/admin/archived-orders/${orderId}`);
+        const data = await response.json();
+        if (data.success) {
+          setSelectedOrder(data.order);
+        }
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      }
     }
   };
 
