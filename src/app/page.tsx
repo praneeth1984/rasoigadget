@@ -465,9 +465,9 @@ export default async function Home() {
             <div>
               <h4 className="text-text-primary font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-text-muted">
-                <li><a href="#" className="hover:text-text-primary transition">Contact</a></li>
-                <li><a href="#" className="hover:text-text-primary transition">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-text-primary transition">Terms of Service</a></li>
+                <li><a href="/about" className="hover:text-text-primary transition">About Us</a></li>
+                <li><a href="/contact" className="hover:text-text-primary transition">Contact Us</a></li>
+                <li><a href="/privacy" className="hover:text-text-primary transition">Privacy Policy</a></li>
               </ul>
             </div>
             <div>

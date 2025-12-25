@@ -23,13 +23,16 @@ export default function Header() {
 
           {/* Navigation - Hidden on mobile/tablet */}
           <nav className="hidden xl:flex items-center gap-8">
-            <a href="#features" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
+            <a href="/about" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
+              About
+            </a>
+            <a href="/#features" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
               Features
             </a>
-            <a href="#testimonials" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
-              Reviews
+            <a href="/contact" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
+              Contact
             </a>
-            <a href="#faq" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
+            <a href="/#faq" className="text-slate-600 hover:text-satvik-green transition-colors font-semibold">
               FAQ
             </a>
             <a href="/orders" className="text-satvik-green hover:text-satvik-green-dark transition-colors font-bold text-lg">
