@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     // Calculate statistics
     const totalRevenue = orders.reduce((sum: number, order: any) => sum + order.amount, 0);
     const totalOrders = orders.length;
-    const uniqueCustomers = new Set(orders.map((order) => order.userId)).size;
+    const uniqueCustomers = new Set(orders.map((order: any) => order.userId)).size;
 
     return NextResponse.json({
       success: true,
