@@ -83,10 +83,36 @@ export async function POST(request: NextRequest) {
         } as any,
       });
 
-      // Send confirmation email with invoice link (async, don't wait)
-      sendInvoiceEmail(order).catch(mailError => {
-        console.error('Failed to send confirmation email:', mailError);
-      });
+      // Send confirmation email with invoice link and log it
+      sendInvoiceEmail(order)
+        .then(async () => {
+          // Log successful email send
+          await prisma.emailLog.create({
+            data: {
+              orderId: order.id,
+              recipientEmail: order.customerEmail,
+              emailType: 'invoice',
+              subject: `Your Order Confirmation & Invoice - #${order.id}`,
+              status: 'sent',
+              sentBy: 'system',
+            },
+          });
+        })
+        .catch(async (mailError) => {
+          console.error('Failed to send confirmation email:', mailError);
+          // Log failed email attempt
+          await prisma.emailLog.create({
+            data: {
+              orderId: order.id,
+              recipientEmail: order.customerEmail,
+              emailType: 'invoice',
+              subject: `Your Order Confirmation & Invoice - #${order.id}`,
+              status: 'failed',
+              errorMessage: mailError instanceof Error ? mailError.message : 'Unknown error',
+              sentBy: 'system',
+            },
+          });
+        });
 
       return NextResponse.json({
         success: true,

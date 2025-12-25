@@ -11,12 +11,13 @@ const transporter = nodemailer.createTransport({
   name: 'rasoigadget.com', // Improves deliverability by fixing EHLO hostname
 });
 
-export async function sendInvoiceEmail(order: any) {
+export async function sendInvoiceEmail(order: any, ccEmails?: string[]) {
   const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/orders/${order.id}/invoice`;
 
   const mailOptions = {
     from: process.env.SMTP_FROM || '"Rasoi Gadget" <noreply@rasoigadget.com>',
     to: order.customerEmail,
+    cc: ccEmails && ccEmails.length > 0 ? ccEmails.join(',') : undefined,
     subject: `Your Order Confirmation & Invoice - #${order.id}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee;">

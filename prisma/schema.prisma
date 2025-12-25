@@ -49,11 +49,30 @@ model Order {
   customerState     String?   // For GST calculation (CGST/SGST vs IGST)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  emailLogs         EmailLog[]
 
   @@index([userId])
   @@index([customerEmail])
   @@index([createdAt])
   @@index([orderNumber])
+}
+
+model EmailLog {
+  id          String   @id @default(cuid())
+  orderId     String?
+  order       Order?   @relation(fields: [orderId], references: [id])
+  recipientEmail String
+  ccEmails    String?  // Comma-separated CC emails
+  emailType   String   // 'invoice', 'otp', 'sample', etc.
+  subject     String
+  status      String   // 'sent', 'failed'
+  errorMessage String?
+  sentBy      String?  // 'system' or admin email
+  sentAt      DateTime @default(now())
+
+  @@index([orderId])
+  @@index([recipientEmail])
+  @@index([sentAt])
 }
 
 model OTP {
