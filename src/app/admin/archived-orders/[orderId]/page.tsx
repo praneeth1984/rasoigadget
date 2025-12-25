@@ -36,6 +36,8 @@ interface ArchivedOrder {
   shippingZip: string | null;
   shippingCountry: string | null;
   notes: string | null;
+  productName: string | null;
+  quantity: number | null;
 }
 
 export default function ArchivedOrderDetailPage(props: { params: Promise<{ orderId: string }> }) {
@@ -160,6 +162,22 @@ export default function ArchivedOrderDetailPage(props: { params: Promise<{ order
                 </div>
 
                 <div className="mt-8 pt-8 border-t border-satvik-green/10">
+                  <h4 className="text-sm font-bold text-text-muted uppercase mb-4">Line Items</h4>
+                  <div className="flex justify-between items-center mb-6 bg-dark-surface p-4 rounded-lg border border-satvik-green/10">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-satvik-green/10 rounded flex items-center justify-center text-satvik-green font-bold">
+                        {order.quantity || 1}x
+                      </div>
+                      <div>
+                        <p className="text-text-primary font-medium">{order.productName || 'Line Item'}</p>
+                        <p className="text-text-secondary text-xs">Price: ₹{(order.total || 0).toFixed(2)}</p>
+                      </div>
+                    </div>
+                    <div className="text-text-primary font-bold">
+                      ₹{(order.total || 0).toFixed(2)}
+                    </div>
+                  </div>
+
                   <div className="flex justify-between mb-2">
                     <span className="text-text-secondary">Subtotal</span>
                     <span className="text-text-primary">₹{order.subtotal?.toFixed(2)}</span>

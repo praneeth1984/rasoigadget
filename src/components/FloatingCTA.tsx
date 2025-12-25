@@ -1,12 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getProductPrice } from '@/lib/pricing';
 import BuyButton from './BuyButton';
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
+  const [productPrice, setProductPrice] = useState(499);
+  const originalPrice = 2997;
+  const discountPercentage = Math.round(((originalPrice - productPrice) / originalPrice) * 100);
 
   useEffect(() => {
+    // Fetch price
+    getProductPrice().then(setProductPrice);
+
     let timeoutId: NodeJS.Timeout;
     
     const handleScroll = () => {
@@ -43,10 +50,10 @@ export default function FloatingCTA() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="text-center sm:text-left">
           <p className="text-white font-bold text-base md:text-xl">
-            🎁 Complete 3-Book Collection: <span className="text-gold">₹499</span> <span className="line-through text-white/60 text-sm">₹2,997</span>
+            🎁 Complete 3-Book Collection: <span className="text-gold">₹{productPrice}</span> <span className="line-through text-white/60 text-sm">₹{originalPrice.toLocaleString('en-IN')}</span>
           </p>
           <p className="text-white/90 text-xs md:text-sm">
-            ⏰ 83% OFF Ends Soon • Instant Download
+            ⏰ {discountPercentage}% OFF Ends Soon • Instant Download
           </p>
         </div>
         <BuyButton size="large" className="pulse-glow whitespace-nowrap shrink-0">

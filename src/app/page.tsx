@@ -13,6 +13,8 @@ import LifestyleBenefits from "@/components/LifestyleBenefits";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const settings = await prisma.setting.findMany();
   const settingsStore = settings.reduce((acc: Record<string, string>, curr: { key: string; value: string }) => {
@@ -21,6 +23,14 @@ export default async function Home() {
   }, {});
 
   const productImage = settingsStore.productImage || "/images/satvik-3-book-pack.jpg";
+  const productPrice = parseInt(settingsStore.productPrice || "499");
+  const originalPrice = 2997;
+  const bonusValue = 500;
+  const totalValue = originalPrice + bonusValue;
+  const savings = originalPrice - productPrice;
+  const totalSavings = totalValue - productPrice;
+  const discountPercentage = Math.round((savings / originalPrice) * 100);
+  const totalDiscountPercentage = Math.round((totalSavings / totalValue) * 100);
 
   return (
     <main className="min-h-screen bg-dark-bg">
@@ -40,7 +50,7 @@ export default async function Home() {
           <div className="text-center mb-6">
             <div className="inline-block bg-gradient-to-r from-urgent-red to-urgent-orange border border-urgent-red/50 rounded-full px-6 py-2 animate-pulse">
               <p className="text-white font-bold text-sm md:text-base">
-                🔥 FLASH SALE: 83% OFF - Ends in Hours!
+                🔥 FLASH SALE: {discountPercentage}% OFF - Ends in Hours!
               </p>
             </div>
           </div>
@@ -87,18 +97,18 @@ export default async function Home() {
               <div className="bg-gradient-to-br from-dark-elevated to-dark-card border-2 border-gold/50 rounded-xl p-4 md:p-6 mb-6 shadow-xl relative overflow-hidden">
                 {/* Mobile Savings Tag */}
                 <div className="md:hidden absolute top-0 right-0 bg-urgent-red text-white px-3 py-1 text-[10px] font-bold rounded-bl-lg">
-                  83% OFF
+                  {discountPercentage}% OFF
                 </div>
                 
                 <div className="text-center mb-4">
                   <p className="text-text-muted text-xs md:text-sm mb-1 uppercase tracking-wider">Complete 3-Book Collection</p>
                   <div className="flex items-center justify-center gap-3 mb-1 md:mb-2">
-                    <span className="text-xl md:text-2xl line-through text-text-muted opacity-60">₹2,997</span>
-                    <span className="hidden md:inline-block bg-urgent-red text-white px-3 py-1 rounded-full text-sm font-bold">83% OFF</span>
+                    <span className="text-xl md:text-2xl line-through text-text-muted opacity-60">₹{originalPrice.toLocaleString('en-IN')}</span>
+                    <span className="hidden md:inline-block bg-urgent-red text-white px-3 py-1 rounded-full text-sm font-bold">{discountPercentage}% OFF</span>
                   </div>
-                  <p className="text-4xl md:text-6xl font-bold text-gold mb-1 md:mb-2">₹499</p>
+                  <p className="text-4xl md:text-6xl font-bold text-gold mb-1 md:mb-2">₹{productPrice}</p>
                   <p className="text-emerald font-semibold text-lg md:text-xl">
-                    Save ₹2,498 Today!
+                    Save ₹{savings.toLocaleString('en-IN')} Today!
                   </p>
                 </div>
 
@@ -151,7 +161,7 @@ export default async function Home() {
                 <div className="absolute -top-4 -right-2 md:-right-4 bg-gradient-to-br from-urgent-red to-urgent-orange text-white rounded-full w-20 h-20 md:w-24 md:h-24 flex items-center justify-center shadow-lg transform rotate-12 pulse-glow z-20">
                   <div className="text-center">
                     <p className="text-[10px] md:text-xs font-semibold">SAVE</p>
-                    <p className="text-2xl md:text-3xl font-bold">83%</p>
+                    <p className="text-2xl md:text-3xl font-bold">{discountPercentage}%</p>
                   </div>
                 </div>
               </div>
@@ -246,7 +256,7 @@ export default async function Home() {
           ))}
         </div>
         <div className="text-center">
-          <BuyButton size="large">Get All 3 Books for ₹499 →</BuyButton>
+          <BuyButton size="large">Get All 3 Books for ₹{productPrice} →</BuyButton>
           <p className="text-gold font-semibold mt-4 text-lg">⚡ Price increases when timer hits zero!</p>
         </div>
       </Section>
@@ -357,13 +367,13 @@ export default async function Home() {
         
         <div className="text-center bg-dark-elevated rounded-xl p-8 max-w-2xl mx-auto border-2 border-royal-purple/30 mb-8">
           <p className="text-4xl font-bold text-text-primary mb-2">
-            Total Value: <span className="text-gold">₹3,497</span>
+            Total Value: <span className="text-gold">₹{totalValue.toLocaleString('en-IN')}</span>
           </p>
           <p className="text-2xl text-text-primary mb-4">
-            Your Price Today: Only <span className="text-gold font-bold">₹499</span>
+            Your Price Today: Only <span className="text-gold font-bold">₹{productPrice}</span>
           </p>
           <p className="text-emerald font-semibold text-xl mb-6">
-            You Save ₹2,998 (86% OFF)!
+            You Save ₹{totalSavings.toLocaleString('en-IN')} ({totalDiscountPercentage}% OFF)!
           </p>
           <BuyButton size="large" className="pulse-glow">
             Claim Your Bonuses Now →
@@ -405,10 +415,10 @@ export default async function Home() {
               </div>
               <div className="bg-white/10 rounded-lg p-6 text-center">
                 <p className="text-white/80 mb-2">One-Time Payment</p>
-                <p className="text-6xl font-bold text-white mb-2">₹499</p>
-                <p className="text-white/70 line-through mb-4 text-lg">₹3,497</p>
+                <p className="text-6xl font-bold text-white mb-2">₹{productPrice}</p>
+                <p className="text-white/70 line-through mb-4 text-lg">₹{totalValue.toLocaleString('en-IN')}</p>
                 <div className="bg-gold/20 border border-gold/50 rounded-lg p-3 mb-4">
-                  <p className="text-white text-sm font-semibold">⚡ 83% OFF Ends Soon!</p>
+                  <p className="text-white text-sm font-semibold">⚡ {discountPercentage}% OFF Ends Soon!</p>
                 </div>
               </div>
             </div>
