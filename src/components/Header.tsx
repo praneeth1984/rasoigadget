@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex items-center justify-between gap-2 md:gap-4">
           {/* Logo */}
           <a href="/" className="flex-shrink-0 flex items-center transition hover:opacity-80">
-            <div className="relative h-10 w-32 xs:h-12 xs:w-40 md:h-16 md:w-64 lg:h-20 lg:w-80">
+            <div className="relative h-12 w-40 sm:h-14 sm:w-48 md:h-16 md:w-64 lg:h-20 lg:w-80">
               <Image
                 src="https://rasoigadget.com/cdn/shop/files/Updated_Logo-removebg-preview.png?height=82&v=1758460383"
                 alt="Rasoi Gadget"

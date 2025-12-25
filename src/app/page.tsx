@@ -20,7 +20,7 @@ export default async function Home() {
     return acc;
   }, {});
 
-  const productImage = settingsStore.productImage || "https://rasoigadget.com/cdn/shop/files/satvik.jpg?v=1760810999&width=1200";
+  const productImage = settingsStore.productImage || "/images/satvik-3-book-pack.jpg";
 
   return (
     <main className="min-h-screen bg-dark-bg">
@@ -371,28 +371,6 @@ export default async function Home() {
         </div>
       </Section>
 
-      {/* Guarantee */}
-      <Section background="dark">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-dark-elevated rounded-2xl p-8 md:p-12 shadow-xl border-2 border-emerald/30">
-            <div className="w-20 h-20 mx-auto mb-6 bg-emerald rounded-full flex items-center justify-center">
-              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-              </svg>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-              100% Risk-Free <span className="text-emerald">30-Day Guarantee</span>
-            </h2>
-            <p className="text-lg text-text-secondary mb-6 leading-relaxed">
-              Try the Satvik 3-Book Collection for 30 days. If you don't feel more energized, see improved digestion, or absolutely love the recipes, simply email us for a full refund - no questions asked.
-            </p>
-            <p className="text-text-primary font-semibold mb-8 text-xl">
-              You have nothing to lose and a lifetime of healthy eating to gain!
-            </p>
-            <BuyButton size="large">Get Started Risk-Free →</BuyButton>
-          </div>
-        </div>
-      </Section>
 
       {/* Final CTA */}
       <Section background="purple" className="text-center">
@@ -467,13 +445,14 @@ export default async function Home() {
               <ul className="space-y-2 text-text-muted">
                 <li><a href="/about" className="hover:text-text-primary transition">About Us</a></li>
                 <li><a href="/contact" className="hover:text-text-primary transition">Contact Us</a></li>
+                <li><a href="/terms" className="hover:text-text-primary transition">Terms & Conditions</a></li>
                 <li><a href="/privacy" className="hover:text-text-primary transition">Privacy Policy</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-text-primary font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-text-muted">
-                <li><a href="#" className="hover:text-text-primary transition">Refund Policy</a></li>
+
                 <li><a href="#" className="hover:text-text-primary transition">Technical Support</a></li>
               </ul>
             </div>
@@ -481,6 +460,17 @@ export default async function Home() {
           <div className="border-t border-royal-purple/20 pt-8 text-center">
             <p className="text-text-muted text-sm">
               © 2025 Rasoi Gadget. All rights reserved.
+            </p>
+            <p className="text-text-muted text-xs mt-2">
+              Website created by{' '}
+              <a 
+                href="https://firstbridgeconsulting.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gold hover:text-gold/80 transition-colors"
+              >
+                First Bridge Consulting
+              </a>
             </p>
           </div>
         </div>

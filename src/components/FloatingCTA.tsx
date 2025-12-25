@@ -23,16 +23,31 @@ export default function FloatingCTA() {
       }
     };
 
+    // Hide when modal is open (checkout or payment)
+    const checkForModals = () => {
+      const hasCheckoutModal = document.querySelector('[data-checkout-modal="true"]');
+      const hasRazorpay = document.querySelector('.razorpay-container');
+      const hasDialog = document.querySelector('[role="dialog"]');
+      
+      if (hasCheckoutModal || hasRazorpay || hasDialog) {
+        setIsVisible(false);
+      }
+    };
+
     // Show after 5 seconds regardless of scroll
     timeoutId = setTimeout(() => {
       setIsVisible(true);
     }, 5000);
+
+    // Check for modals periodically (faster interval for better UX)
+    const modalCheckInterval = setInterval(checkForModals, 200);
 
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mouseout', handleMouseOut);
 
     return () => {
       clearTimeout(timeoutId);
+      clearInterval(modalCheckInterval);
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mouseout', handleMouseOut);
     };
@@ -48,7 +63,7 @@ export default function FloatingCTA() {
             🎁 Complete 3-Book Collection: <span className="text-gold">₹499</span> <span className="line-through text-white/60 text-sm">₹2,997</span>
           </p>
           <p className="text-white/90 text-xs md:text-sm">
-            ⏰ 83% OFF Ends Soon • Instant Download • 30-Day Guarantee
+            ⏰ 83% OFF Ends Soon • Instant Download
           </p>
         </div>
         <BuyButton size="large" className="pulse-glow whitespace-nowrap shrink-0">
