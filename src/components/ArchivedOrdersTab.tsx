@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Button from '@/components/Button';
 
 interface ArchivedOrder {
@@ -13,49 +14,39 @@ interface ArchivedOrder {
   financialStatus: string | null;
 }
 
+interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 export default function ArchivedOrdersTab() {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [archivedOrders, setArchivedOrders] = useState<ArchivedOrder[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetchArchivedOrders();
-  }, []);
+    fetchArchivedOrders(currentPage);
+  }, [currentPage]);
 
-  const fetchArchivedOrders = async () => {
+  const fetchArchivedOrders = async (page: number) => {
+    setLoading(true);
     try {
-      const response = await fetch('/api/admin/archived-orders');
+      const response = await fetch(`/api/admin/archived-orders?page=${page}&limit=20`);
       const data = await response.json();
       if (data.success) {
         setArchivedOrders(data.orders);
+        setPagination(data.pagination);
       }
     } catch (error) {
       console.error('Error fetching archived orders:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const toggleOrderDetails = async (orderId: string) => {
-    if (expandedOrderId === orderId) {
-      setExpandedOrderId(null);
-      setSelectedOrder(null);
-    } else {
-      setExpandedOrderId(orderId);
-      // Fetch full order details
-      try {
-        const response = await fetch(`/api/admin/archived-orders/${orderId}`);
-        const data = await response.json();
-        if (data.success) {
-          setSelectedOrder(data.order);
-        }
-      } catch (error) {
-        console.error('Error fetching order details:', error);
-      }
     }
   };
 
@@ -93,7 +84,8 @@ export default function ArchivedOrdersTab() {
         const fileInput = document.getElementById('csv-file') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
         // Refresh the list
-        fetchArchivedOrders();
+        fetchArchivedOrders(1);
+        setCurrentPage(1);
       } else {
         setMessage(`❌ ${data.message}`);
       }
@@ -164,14 +156,40 @@ export default function ArchivedOrdersTab() {
 
       {/* Archived Orders List */}
       <div className="bg-dark-elevated rounded-2xl border border-satvik-green/20 overflow-hidden">
-        <div className="p-6 border-b border-satvik-green/20">
+        <div className="p-6 border-b border-satvik-green/20 flex items-center justify-between">
           <h3 className="text-xl font-bold text-text-primary">
-            Archived Orders ({archivedOrders.length})
+            Archived Orders ({pagination?.total || 0})
           </h3>
+          {pagination && pagination.totalPages > 1 && (
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1 || loading}
+                className="p-2 rounded-lg bg-dark-surface text-text-secondary disabled:opacity-50 hover:bg-satvik-green/10 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <span className="text-sm text-text-muted">
+                Page {currentPage} of {pagination.totalPages}
+              </span>
+              <button 
+                onClick={() => setCurrentPage(prev => Math.min(pagination.totalPages, prev + 1))}
+                disabled={currentPage === pagination.totalPages || loading}
+                className="p-2 rounded-lg bg-dark-surface text-text-secondary disabled:opacity-50 hover:bg-satvik-green/10 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
 
         {loading ? (
-          <div className="p-8 text-center text-text-secondary">
+          <div className="p-12 text-center text-text-secondary">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-satvik-green mx-auto mb-4"></div>
             Loading archived orders...
           </div>
         ) : archivedOrders.length === 0 ? (
@@ -188,6 +206,7 @@ export default function ArchivedOrdersTab() {
                   <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Total</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Status</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-text-muted uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-satvik-green/10">
@@ -218,6 +237,14 @@ export default function ArchivedOrdersTab() {
                         month: 'short',
                         day: 'numeric',
                       })}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                      <Link 
+                        href={`/admin/archived-orders/${order.id}`}
+                        className="text-satvik-green hover:underline font-medium"
+                      >
+                        View Details →
+                      </Link>
                     </td>
                   </tr>
                 ))}
