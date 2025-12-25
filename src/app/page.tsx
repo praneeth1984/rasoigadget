@@ -10,6 +10,7 @@ import SatvikBenefits from "@/components/SatvikBenefits";
 import FoodGallery from "@/components/FoodGallery";
 import TransformationGallery from "@/components/TransformationGallery";
 import LifestyleBenefits from "@/components/LifestyleBenefits";
+import FAQ from "@/components/FAQ";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 
@@ -381,6 +382,14 @@ export default async function Home() {
         </div>
       </Section>
 
+
+      {/* FAQ Section */}
+      <Section background="darker" id="faq">
+        <SectionTitle subtitle="Common questions about our Satvik cookbook collection">
+          Frequently Asked Questions
+        </SectionTitle>
+        <FAQ />
+      </Section>
 
       {/* Final CTA */}
       <Section background="purple" className="text-center">
