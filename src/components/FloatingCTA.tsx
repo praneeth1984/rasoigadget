@@ -4,39 +4,41 @@ import { useState, useEffect } from 'react';
 import BuyButton from './BuyButton';
 
 export default function FloatingCTA() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false); // Whether CTA should be shown (based on scroll/time)
+  const [isVisible, setIsVisible] = useState(false); // Whether CTA is currently visible (not hidden by modal)
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     
     const handleScroll = () => {
-      // Show after scrolling 150px OR after 5 seconds
+      // Enable after scrolling 150px
       if (window.scrollY > 150) {
-        setIsVisible(true);
+        setIsEnabled(true);
       }
     };
 
     const handleMouseOut = (e: MouseEvent) => {
-      // Exit intent - show when mouse leaves top of page
+      // Exit intent - enable when mouse leaves top of page
       if (e.clientY < 10) {
-        setIsVisible(true);
+        setIsEnabled(true);
       }
     };
 
-    // Hide when modal is open (checkout or payment)
+    // Check for modals and update visibility accordingly
     const checkForModals = () => {
       const hasCheckoutModal = document.querySelector('[data-checkout-modal="true"]');
       const hasRazorpay = document.querySelector('.razorpay-container');
       const hasDialog = document.querySelector('[role="dialog"]');
       
-      if (hasCheckoutModal || hasRazorpay || hasDialog) {
-        setIsVisible(false);
-      }
+      const hasAnyModal = hasCheckoutModal || hasRazorpay || hasDialog;
+      
+      // Only show if enabled AND no modal is open
+      setIsVisible(isEnabled && !hasAnyModal);
     };
 
-    // Show after 5 seconds regardless of scroll
+    // Enable after 5 seconds regardless of scroll
     timeoutId = setTimeout(() => {
-      setIsVisible(true);
+      setIsEnabled(true);
     }, 5000);
 
     // Check for modals periodically (faster interval for better UX)
@@ -51,7 +53,7 @@ export default function FloatingCTA() {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mouseout', handleMouseOut);
     };
-  }, []);
+  }, [isEnabled]); // Re-run when isEnabled changes
 
   if (!isVisible) return null;
 
