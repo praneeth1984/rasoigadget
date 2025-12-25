@@ -8,6 +8,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  name: 'rasoigadget.com', // Improves deliverability by fixing EHLO hostname
 });
 
 export async function sendInvoiceEmail(order: any) {
@@ -22,15 +23,48 @@ export async function sendInvoiceEmail(order: any) {
         <h2 style="color: #9FCC7C;">Thank you for your purchase!</h2>
         <p>Hi ${order.customerName || 'Customer'},</p>
         <p>Your payment for <strong>${order.productName}</strong> has been successful.</p>
+        
         <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
           <p style="margin: 5px 0;"><strong>Order ID:</strong> #${order.id}</p>
           <p style="margin: 5px 0;"><strong>Amount Paid:</strong> ₹${(order.amount / 100).toFixed(2)}</p>
           <p style="margin: 5px 0;"><strong>Status:</strong> Paid</p>
         </div>
-        <p>You can download your tax invoice by clicking the button below:</p>
-        <a href="${invoiceUrl}" style="display: inline-block; padding: 12px 24px; background-color: #9FCC7C; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Download Invoice</a>
-        <p style="margin-top: 30px;">Your ebooks are now available in your "My Orders" section.</p>
-        <p>Keep Cooking Satvik!</p>
+
+        <h3 style="color: #4CAF50;">Your Downloads</h3>
+        <p>Here are direct links to your ebooks:</p>
+        <ul style="list-style: none; padding: 0;">
+          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+            <strong>Satvik 4-in-1 Meal Book:</strong><br>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_4_in1_Meal_BookFinal.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
+          </li>
+          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+            <strong>Satvik Protein Book:</strong><br>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_Protein_BookFinal.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
+          </li>
+          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+            <strong>Satvik Dessert Book:</strong><br>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_Dessert_Book_Final.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
+          </li>
+        </ul>
+
+        <h3 style="color: #FFB347;">Your Bonuses</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #FFF9F0; background-color: #FFF9F0; border-radius: 5px;">
+            <strong>Kids Meal Planner:</strong><br>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Kids-Meal-Planner.pdf" style="color: #FFB347; text-decoration: none;">Download PDF</a>
+          </li>
+          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #FFF9F0; background-color: #FFF9F0; border-radius: 5px;">
+             <strong>Monthly Meal Planner:</strong><br>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Monthly-Meal-Planner.pdf" style="color: #FFB347; text-decoration: none;">Download PDF</a>
+          </li>
+        </ul>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <p>You can also download your tax invoice:</p>
+            <a href="${invoiceUrl}" style="display: inline-block; padding: 12px 24px; background-color: #555; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Download Invoice</a>
+        </div>
+        
+        <p style="margin-top: 30px;">Keep Cooking Satvik!</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
         <p style="font-size: 12px; color: #777; text-align: center;">Rasoi Gadget India</p>
       </div>

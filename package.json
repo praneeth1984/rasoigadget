@@ -4,7 +4,7 @@
   "description": "Satvik Cookbook Ebook Landing Page",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"

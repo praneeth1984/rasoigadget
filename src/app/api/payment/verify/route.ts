@@ -60,13 +60,10 @@ export async function POST(request: NextRequest) {
         } as any,
       });
 
-      // Send confirmation email with invoice link
-      try {
-        await sendInvoiceEmail(order);
-      } catch (mailError) {
+      // Send confirmation email with invoice link (async, don't wait)
+      sendInvoiceEmail(order).catch(mailError => {
         console.error('Failed to send confirmation email:', mailError);
-        // We don't fail the request if email fails
-      }
+      });
 
       return NextResponse.json({
         success: true,
