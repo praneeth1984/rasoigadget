@@ -37,6 +37,13 @@ export async function GET(
     const taxAmount = (order.taxAmount || 0) / 100;
     const totalAmount = order.amount / 100;
 
+    // Get GST percentage from settings (default 5% if not set)
+    const gstSetting = await prisma.setting.findUnique({
+      where: { key: 'gstPercentage' },
+    });
+    const gstPercentage = gstSetting ? parseFloat(gstSetting.value) : 5;
+    const halfGst = gstPercentage / 2;
+
     // GST Logic: seller is in Karnataka
     const sellerState = "Karnataka";
     const isInterState = order.customerState && order.customerState !== sellerState;
@@ -45,7 +52,7 @@ export async function GET(
     if (isInterState) {
       taxBreakdownHtml = `
         <tr class="item last">
-          <td>IGST (18%)</td>
+          <td>IGST (${gstPercentage}%)</td>
           <td>₹${taxAmount.toFixed(2)}</td>
         </tr>
       `;
@@ -53,11 +60,11 @@ export async function GET(
       const halfTax = taxAmount / 2;
       taxBreakdownHtml = `
         <tr class="item">
-          <td>CGST (9%)</td>
+          <td>CGST (${halfGst}%)</td>
           <td>₹${halfTax.toFixed(2)}</td>
         </tr>
         <tr class="item last">
-          <td>SGST (9%)</td>
+          <td>SGST (${halfGst}%)</td>
           <td>₹${halfTax.toFixed(2)}</td>
         </tr>
       `;
@@ -121,9 +128,9 @@ export async function GET(
                   <tr>
                     <td>
                       <strong>Billed From:</strong><br>
-                      Rasoi Gadget India<br>
+                      First Bridge Consulting<br>
                       Bengaluru, Karnataka<br>
-                      GSTIN: 29AAAAA0000A1Z5 (Sample)
+                      GSTIN: 29AAIFF1593K1ZY
                     </td>
                     <td>
                       <strong>Billed To:</strong><br>

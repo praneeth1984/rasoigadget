@@ -53,7 +53,12 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState<'orders' | 'settings' | 'contacts' | 'archived'>('orders');
-  const [settings, setSettings] = useState<{ productImage?: string; nextOrderNumber?: string; productPrice?: string }>({});
+  const [settings, setSettings] = useState<{ 
+    productImage?: string; 
+    nextOrderNumber?: string; 
+    productPrice?: string;
+    gstPercentage?: string;
+  }>({});
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
   const [testEmail, setTestEmail] = useState('');
@@ -538,6 +543,40 @@ export default function AdminDashboard() {
                         disabled={isSaving}
                       >
                         Update Price
+                      </Button>
+                      {saveMessage && (
+                        <span className={`text-sm font-medium ${saveMessage.includes('Failed') ? 'text-red-400' : 'text-emerald'}`}>
+                          {saveMessage}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* GST Percentage Setting */}
+                  <div>
+                    <label className="block text-text-secondary text-sm font-medium mb-2">
+                      GST Percentage (%)
+                    </label>
+                    <p className="text-text-muted text-xs mb-3">
+                      Set the GST percentage included in the product price. Default is 5%.
+                    </p>
+                    <input
+                      type="number"
+                      value={settings.gstPercentage || '5'}
+                      onChange={(e) => setSettings(prev => ({ ...prev, gstPercentage: e.target.value }))}
+                      placeholder="5"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      className="w-full px-4 py-3 bg-dark-surface border border-satvik-green/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-satvik-green transition-colors mb-4"
+                    />
+                    <div className="flex items-center gap-4">
+                      <Button 
+                        onClick={() => updateSetting('gstPercentage', settings.gstPercentage || '5')}
+                        loading={isSaving}
+                        disabled={isSaving}
+                      >
+                        Update GST Percentage
                       </Button>
                       {saveMessage && (
                         <span className={`text-sm font-medium ${saveMessage.includes('Failed') ? 'text-red-400' : 'text-emerald'}`}>

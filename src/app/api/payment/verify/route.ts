@@ -42,10 +42,16 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // Calculate GST (assuming 18% included in price)
-      // Total = Base * 1.18 -> Base = Total / 1.18
+      // Calculate GST (default 5% if not set)
+      const gstSetting = await prisma.setting.findUnique({
+        where: { key: 'gstPercentage' },
+      });
+      const gstPercentage = gstSetting ? parseFloat(gstSetting.value) : 5;
+      const gstMultiplier = 1 + (gstPercentage / 100);
+
+      // Total = Base * (1 + GST/100) -> Base = Total / Multiplier
       const totalAmountPaise = amount;
-      const baseAmountPaise = Math.round(totalAmountPaise / 1.18);
+      const baseAmountPaise = Math.round(totalAmountPaise / gstMultiplier);
       const taxAmountPaise = totalAmountPaise - baseAmountPaise;
 
       // Get the next sequential order number for paid orders
