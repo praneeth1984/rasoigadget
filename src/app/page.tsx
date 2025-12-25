@@ -15,7 +15,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
   const settings = await prisma.setting.findMany();
-  const settingsStore = settings.reduce((acc: any, curr) => {
+  const settingsStore = settings.reduce((acc: Record<string, string>, curr: { key: string; value: string }) => {
     acc[curr.key] = curr.value;
     return acc;
   }, {});
