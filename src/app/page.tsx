@@ -117,7 +117,7 @@ export default async function Home() {
                   Yes! Send Me The Collection →
                 </BuyButton>
                 <p className="text-center text-text-muted text-[10px] md:text-sm">
-                  ✓ Instant Download • ✓ 30-Day Guarantee
+                  ✓ Instant Download
                 </p>
               </div>
             </div>
@@ -401,8 +401,7 @@ export default async function Home() {
                     "Satvik 4-in-1 Meal Book (Main Guide)",
                     "Satvik Protein Book (Health & Muscle)",
                     "Satvik Dessert Book (Daily Treats)",
-                    "2 Exclusive Planners (Bonus)",
-                    "30-day money-back guarantee"
+                    "2 Exclusive Planners (Bonus)"
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <svg className="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -428,7 +427,7 @@ export default async function Home() {
             Yes! Send Me The Complete Collection →
           </BuyButton>
           <p className="text-white/70 mt-6">
-            ✓ Instant Download • ✓ Secure Checkout • ✓ 30-Day Guarantee
+            ✓ Instant Download • ✓ Secure Checkout
           </p>
         </div>
       </Section>

@@ -22,14 +22,6 @@ export default function TrustBadges() {
         <span className="text-text-primary font-semibold text-sm">Instant Download</span>
       </div>
 
-      {/* Money Back Guarantee */}
-      <div className="flex items-center gap-2 bg-dark-elevated px-4 py-2 rounded-lg border border-royal-purple/30">
-        <svg className="w-5 h-5 text-royal-purple" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-        </svg>
-        <span className="text-text-primary font-semibold text-sm">30-Day Guarantee</span>
-      </div>
-
       {/* Secure Checkout */}
       <div className="flex items-center gap-2 bg-dark-elevated px-4 py-2 rounded-lg border border-gold/30">
         <svg className="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
