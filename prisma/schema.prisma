@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  String                @id @default(cuid())
+  email               String                @unique
+  name                String?
+  phone               String?               // Customer phone number
+  password            String?               // Hashed password for authentication
+  isAdmin             Boolean               @default(false)
+  emailVerified       Boolean               @default(false)
+  lastLoginAt         DateTime?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  orders              Order[]
+  passwordResetTokens PasswordResetToken[]
+
+  @@index([isAdmin])
+  @@index([phone])
+  @@index([emailVerified])
+}
+
+model Order {
+  id                Int      @id @default(autoincrement())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id])
+  razorpayOrderId   String   @unique
+  razorpayPaymentId String?  @unique
+  amount            Int      // Total amount in paise
+  baseAmount        Int?     // Amount before tax in paise
+  taxAmount         Int?     // GST amount in paise
+  gstNumber         String?  // Customer's GST number
+  companyName       String?  // Customer's company name/registered name
+  currency          String   @default("INR")
+  status            String   @default("draft") // draft, completed, failed, refunded
+  productName       String   @default("Satvik 3-Book Collection")
+  customerEmail     String
+  customerName      String?
+  customerPhone     String?
+  customerState     String?   // For GST calculation (CGST/SGST vs IGST)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([customerEmail])
+  @@index([createdAt])
+}
+
+model OTP {
+  id         String    @id @default(cuid())
+  email      String
+  otp        String
+  purpose    String    // 'login', 'signup', 'password_reset'
+  expiresAt  DateTime
+  verified   Boolean   @default(false)
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+  verifiedAt DateTime?
+
+  @@index([email])
+  @@index([expiresAt])
+  @@index([purpose])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String    @unique
+  expiresAt DateTime
+  used      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  usedAt    DateTime?
+
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}

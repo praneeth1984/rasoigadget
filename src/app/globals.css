@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  /* Premium Color Palette - Persuasive & Luxurious */
+  --color-royal-purple: #6b46c1;
+  --color-royal-purple-light: #8b5cf6;
+  --color-royal-purple-dark: #553c9a;
+
+  --color-gold: #f59e0b;
+  --color-gold-light: #fbbf24;
+  --color-gold-dark: #d97706;
+
+  --color-burgundy: #991b1b;
+  --color-burgundy-light: #dc2626;
+  --color-burgundy-dark: #7f1d1d;
+
+  --color-emerald: #059669;
+  --color-emerald-light: #10b981;
+  --color-emerald-dark: #047857;
+
+  /* Dark Theme Backgrounds - Richer tones */
+  --color-dark-bg: #0a0a0f;
+  --color-dark-surface: #151520;
+  --color-dark-elevated: #1f1f2e;
+  --color-dark-card: #252538;
+
+  /* Text colors for dark theme */
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+
+  /* Accent colors for urgency */
+  --color-urgent-red: #ef4444;
+  --color-urgent-orange: #f97316;
+  --color-success-green: #10b981;
+
+  /* Brand Colors */
+  --color-satvik-green: #2d5a27;
+  --color-satvik-green-light: #3d7a35;
+  --color-satvik-green-dark: #1e3d1a;
+
+  --color-saffron-orange: #ff9933;
+  --color-saffron-orange-light: #ffad5c;
+  --color-saffron-orange-dark: #cc7a29;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0a0a0f;
+  color: #f3f4f6;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #151520;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6b46c1 0%, #8b5cf6 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8b5cf6 0%, #6b46c1 100%);
+}
+
+/* Pulse animation for urgency */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(245, 158, 11, 0.8);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Shimmer effect for premium feel */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
