@@ -62,6 +62,8 @@ export async function POST(request: NextRequest) {
             customerName: customerInfo.name || null,
             customerPhone: customerInfo.contact || null,
             customerState: customerInfo.state || null,
+            discountCode: customerInfo.discountCode || null,
+            discountAmount: customerInfo.discountCode === 'SATVIK10' ? Math.round((amount / 0.9) * 0.1 * 100) : null,
             status: 'draft',
           } as any,
         });

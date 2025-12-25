@@ -47,6 +47,8 @@ model Order {
   customerName      String?
   customerPhone     String?
   customerState     String?   // For GST calculation (CGST/SGST vs IGST)
+  discountCode      String?   // Applied coupon code
+  discountAmount    Int?      // Discount amount in paise
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   emailLogs         EmailLog[]
@@ -166,5 +168,14 @@ model ContactRequest {
 
   @@index([email])
   @@index([status])
+  @@index([createdAt])
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@index([email])
   @@index([createdAt])
 }

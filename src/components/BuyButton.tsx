@@ -33,13 +33,25 @@ export default function BuyButton({
     setIsModalOpen(true);
   };
 
-  const handleConfirmOrder = async (data: { name: string; email: string; contact: string; state: string }) => {
+  const handleConfirmOrder = async (data: { 
+    name: string; 
+    email: string; 
+    contact: string; 
+    state: string;
+    discountCode?: string;
+  }) => {
     setIsModalOpen(false);
     
-    // Track checkout initiation
-    trackInitiateCheckout(productPrice, 'INR');
+    // Calculate final amount if coupon is applied
+    let finalAmount = productPrice;
+    if (data.discountCode === 'SATVIK10') {
+      finalAmount = Math.round(productPrice * 0.9);
+    }
     
-    await initiatePayment(productPrice, data);
+    // Track checkout initiation with the final price
+    trackInitiateCheckout(finalAmount, 'INR');
+    
+    await initiatePayment(finalAmount, data);
   };
 
   return (

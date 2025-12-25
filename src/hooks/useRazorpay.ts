@@ -11,7 +11,16 @@ export const useRazorpay = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const router = useRouter();
 
-  const initiatePayment = async (amount: number, customerInfo?: { name: string; email: string; contact: string; state: string }) => {
+  const initiatePayment = async (
+    amount: number, 
+    customerInfo?: { 
+      name: string; 
+      email: string; 
+      contact: string; 
+      state: string;
+      discountCode?: string;
+    }
+  ) => {
     try {
       setIsLoading(true);
 

@@ -7,7 +7,13 @@ import Button from './Button';
 interface CheckoutModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (data: { name: string; email: string; contact: string; state: string }) => void;
+  onConfirm: (data: { 
+    name: string; 
+    email: string; 
+    contact: string; 
+    state: string;
+    discountCode?: string;
+  }) => void;
   amount: number;
 }
 
@@ -23,6 +29,14 @@ export default function CheckoutModal({
     contact: '',
     state: '',
   });
+
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<{code: string, discount: number} | null>(null);
+  const [couponError, setCouponError] = useState('');
+
+  const currentAmount = appliedCoupon 
+    ? Math.round(amount * (1 - appliedCoupon.discount / 100))
+    : amount;
 
   const indianStates = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
@@ -58,7 +72,28 @@ export default function CheckoutModal({
     localStorage.setItem('userPhone', formData.contact);
     localStorage.setItem('userState', formData.state);
     
-    onConfirm(formData);
+    onConfirm({
+      ...formData,
+      discountCode: appliedCoupon?.code
+    });
+  };
+
+  const handleApplyCoupon = () => {
+    setCouponError('');
+    const code = couponCode.trim().toUpperCase();
+    
+    if (code === 'SATVIK10') {
+      setAppliedCoupon({ code: 'SATVIK10', discount: 10 });
+      setCouponCode('');
+    } else if (code === '') {
+      setCouponError('Please enter a code');
+    } else {
+      setCouponError('Invalid discount code');
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
   };
 
   return (
@@ -149,10 +184,64 @@ export default function CheckoutModal({
             </select>
           </div>
 
+          {/* Discount Code */}
+          <div className="bg-dark-surface/50 p-4 rounded-xl border border-white/5">
+            <label className="block text-sm font-semibold text-text-primary mb-2">
+              Discount Code
+            </label>
+            {appliedCoupon ? (
+              <div className="flex items-center justify-between bg-emerald/10 border border-emerald/30 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <span className="text-emerald font-bold">{appliedCoupon.code}</span>
+                  <span className="text-emerald/80 text-xs">({appliedCoupon.discount}% OFF Applied)</span>
+                </div>
+                <button 
+                  type="button" 
+                  onClick={removeCoupon}
+                  className="text-text-muted hover:text-urgent-red transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  placeholder="Enter code (e.g. SATVIK10)"
+                  className="flex-1 px-4 py-2 bg-dark-bg border border-white/10 rounded-lg text-text-primary focus:outline-none focus:border-gold transition-colors text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={handleApplyCoupon}
+                  className="px-4 py-2 bg-gold/20 hover:bg-gold/30 text-gold font-bold rounded-lg transition-colors text-sm border border-gold/30"
+                >
+                  Apply
+                </button>
+              </div>
+            )}
+            {couponError && <p className="text-urgent-red text-xs mt-2">{couponError}</p>}
+          </div>
+
           <div className="pt-4">
-            <div className="flex justify-between items-center mb-4 p-3 bg-gold/10 rounded-lg border border-gold/20">
-              <span className="text-text-primary font-semibold">Total Amount:</span>
-              <span className="text-gold font-bold text-xl">₹{amount}</span>
+            <div className="flex flex-col gap-2 mb-4 p-3 bg-gold/10 rounded-lg border border-gold/20">
+              <div className="flex justify-between items-center">
+                <span className="text-text-secondary text-sm">Original Price:</span>
+                <span className="text-text-muted text-sm line-through">₹{amount}</span>
+              </div>
+              {appliedCoupon && (
+                <div className="flex justify-between items-center text-emerald">
+                  <span className="text-sm">Discount ({appliedCoupon.discount}%):</span>
+                  <span className="text-sm">-₹{amount - currentAmount}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center pt-2 border-t border-gold/20">
+                <span className="text-text-primary font-bold">Total Amount:</span>
+                <span className="text-gold font-bold text-2xl">₹{currentAmount}</span>
+              </div>
             </div>
             <Button type="submit" size="large" className="w-full shadow-lg shadow-gold/20">
               Proceed to Payment →

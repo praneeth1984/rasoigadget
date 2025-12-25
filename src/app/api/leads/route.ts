@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { sendSampleEmail } from '@/lib/mail';
-
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
@@ -15,8 +15,20 @@ export async function POST(request: NextRequest) {
     // The discount code for leads
     const discountCode = 'SATVIK10';
 
+    // Save the lead to the database
+    try {
+      await prisma.lead.upsert({
+        where: { email },
+        update: {}, // No update needed if exists
+        create: { email },
+      });
+      console.log(`[LEAD] Saved lead: ${email}`);
+    } catch (dbError) {
+      console.error('[LEAD] Failed to save lead to database:', dbError);
+      // We continue even if DB save fails to send the email
+    }
+
     // Send the sample email asynchronously
-    // In a real production app, you might use a queue
     const emailResult = await sendSampleEmail(email, discountCode);
 
     if (!emailResult.success) {
