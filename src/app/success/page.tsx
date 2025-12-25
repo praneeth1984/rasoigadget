@@ -130,7 +130,34 @@ function SuccessContent() {
 
 export default function SuccessPage() {
   return (
-    <main className="min-h-screen bg-dark-bg pt-20">
+    <main className="min-h-screen bg-dark-bg">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-dark-bg/95 backdrop-blur-sm border-b border-gold/20">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-royal-purple to-gold rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xl">R</span>
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-text-primary group-hover:text-gold transition-colors">
+                Rasoi Gadget
+              </h1>
+              <p className="text-[10px] text-text-muted">Satvik Cooking Books</p>
+            </div>
+          </a>
+          <a 
+            href="/" 
+            className="text-sm text-text-secondary hover:text-gold transition-colors flex items-center gap-1"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+          </a>
+        </div>
+      </header>
+
+      <div className="pt-20">
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
@@ -141,6 +168,7 @@ export default function SuccessPage() {
       }>
         <SuccessContent />
       </Suspense>
+      </div>
     </main>
   );
 }
