@@ -44,32 +44,40 @@ export async function sendInvoiceEmail(order: any, ccEmails?: string[]) {
         <h3 style="color: #4CAF50;">Your Downloads</h3>
         <p>Here are direct links to your ebooks:</p>
         <ul style="list-style: none; padding: 0;">
-          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
-            <strong>Satvik 4-in-1 Meal Book:</strong><br>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_4_in1_Meal_BookFinal.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
-          </li>
-          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
-            <strong>Satvik Protein Book:</strong><br>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_Protein_BookFinal.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
-          </li>
-          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
-            <strong>Satvik Dessert Book:</strong><br>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_Dessert_Book_Final.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
-          </li>
+          ${order.productName === '7 Habits to Reset Your Life' ? `
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+              <strong>7 Habits to Reset Your Life (Mobile eBook):</strong><br>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/7-habits-reset-life.pdf" style="color: #D4AF37; text-decoration: none; font-weight: bold;">Download PDF →</a>
+            </li>
+          ` : `
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+              <strong>Satvik 4-in-1 Meal Book:</strong><br>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_4_in1_Meal_BookFinal.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
+            </li>
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+              <strong>Satvik Protein Book:</strong><br>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_Protein_BookFinal.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
+            </li>
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+              <strong>Satvik Dessert Book:</strong><br>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Satvik_Dessert_Book_Final.pdf" style="color: #9FCC7C; text-decoration: none;">Download PDF</a>
+            </li>
+          `}
         </ul>
 
-        <h3 style="color: #FFB347;">Your Bonuses</h3>
-        <ul style="list-style: none; padding: 0;">
-          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #FFF9F0; background-color: #FFF9F0; border-radius: 5px;">
-            <strong>Kids Meal Planner:</strong><br>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Kids-Meal-Planner.pdf" style="color: #FFB347; text-decoration: none;">Download PDF</a>
-          </li>
-          <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #FFF9F0; background-color: #FFF9F0; border-radius: 5px;">
-             <strong>Monthly Meal Planner:</strong><br>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Monthly-Meal-Planner.pdf" style="color: #FFB347; text-decoration: none;">Download PDF</a>
-          </li>
-        </ul>
-
+        ${order.productName !== '7 Habits to Reset Your Life' ? `
+          <h3 style="color: #FFB347;">Your Bonuses</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #FFF9F0; background-color: #FFF9F0; border-radius: 5px;">
+              <strong>Kids Meal Planner:</strong><br>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Kids-Meal-Planner.pdf" style="color: #FFB347; text-decoration: none;">Download PDF</a>
+            </li>
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #FFF9F0; background-color: #FFF9F0; border-radius: 5px;">
+               <strong>Monthly Meal Planner:</strong><br>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/downloads/Monthly-Meal-Planner.pdf" style="color: #FFB347; text-decoration: none;">Download PDF</a>
+            </li>
+          </ul>
+        ` : ''}
         <div style="margin-top: 30px; text-align: center;">
             <p>You can also download your tax invoice:</p>
             <a href="${invoiceUrl}" style="display: inline-block; padding: 12px 24px; background-color: #555; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Download Invoice</a>

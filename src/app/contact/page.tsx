@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Section from '@/components/Section';
 import SectionTitle from '@/components/SectionTitle';
 import Header from '@/components/Header';
-import Button from '@/components/Button';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -40,149 +39,157 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-dark-bg">
+    <main className="min-h-screen bg-[#0A192F] text-white selection:bg-[#D4AF37] selection:text-[#0A192F] font-sans antialiased">
       <Header />
       
-      <div className="pt-24 pb-16">
+      <div className="pt-32 pb-24">
         <Section>
-          <div className="max-w-5xl mx-auto">
-            <SectionTitle subtitle="Have questions? We're here to help you on your Satvik journey.">
-              Contact Us
+          <div className="max-w-6xl mx-auto">
+            <SectionTitle 
+              subtitle="Have questions about our eBooks? We're here to help you on your journey."
+              dark
+            >
+              Contact Support
             </SectionTitle>
 
-            <div className="grid md:grid-cols-2 gap-12 mt-12">
+            <div className="grid md:grid-cols-5 gap-16 mt-16">
               {/* Contact Information */}
-              <div>
-                <h2 className="text-2xl font-bold text-text-primary mb-6">Get in Touch</h2>
+              <div className="md:col-span-2 space-y-10">
+                <div>
+                  <h2 className="text-3xl font-black mb-6 text-[#D4AF37]">Get in Touch</h2>
+                  <p className="text-slate-400 font-medium leading-relaxed mb-10">
+                    Whether you have technical issues with a download or questions about our recipes, our team is ready to assist you.
+                  </p>
+                </div>
+
                 <div className="space-y-8">
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 bg-satvik-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <svg className="w-6 h-6 text-satvik-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex gap-6 group">
+                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#D4AF37]/50 transition-all">
+                      <svg className="w-6 h-6 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div>
-                      <h4 className="text-text-primary font-bold mb-1">Email Us</h4>
-                      <p className="text-text-secondary">support@rasoigadget.com</p>
-                      <p className="text-text-muted text-sm mt-1">We typically reply within 24 hours.</p>
+                      <h4 className="text-white font-black text-xs uppercase tracking-widest mb-2">Email Address</h4>
+                      <p className="text-[#D4AF37] font-bold text-lg">support@rasoigadget.com</p>
+                      <p className="text-slate-500 text-xs font-bold mt-1">24/7 Response Time</p>
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  <div className="flex gap-6 group">
+                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#D4AF37]/50 transition-all">
+                      <svg className="w-6 h-6 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h4 className="text-text-primary font-bold mb-1">Support Hours</h4>
-                      <p className="text-text-secondary">Monday - Saturday</p>
-                      <p className="text-text-secondary">10:00 AM - 7:00 PM IST</p>
+                      <h4 className="text-white font-black text-xs uppercase tracking-widest mb-2">Support Hours</h4>
+                      <p className="text-slate-300 font-bold">Mon - Sat: 10AM - 7PM IST</p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="p-6 bg-dark-elevated rounded-2xl border border-white/5">
-                    <h4 className="text-text-primary font-bold mb-2">Frequently Asked Questions</h4>
-                    <p className="text-text-secondary text-sm mb-4">
-                      Check our FAQ section on the home page for quick answers about our ebooks, payments, and downloads.
-                    </p>
-                    <a href="/#faq" className="text-satvik-green font-bold text-sm hover:underline">View FAQs →</a>
-                  </div>
+                <div className="p-8 bg-white/5 rounded-[2rem] border border-white/10 backdrop-blur-sm">
+                   <h4 className="text-[#D4AF37] font-black text-xs uppercase tracking-widest mb-4">Quick Links</h4>
+                   <ul className="space-y-4">
+                      <li><a href="/reset-life#faq" className="text-slate-400 hover:text-white transition-colors text-sm font-bold flex items-center gap-2">
+                        <span className="w-1 h-1 bg-[#D4AF37] rounded-full" /> eBook FAQs
+                      </a></li>
+                      <li><a href="/terms" className="text-slate-400 hover:text-white transition-colors text-sm font-bold flex items-center gap-2">
+                        <span className="w-1 h-1 bg-[#D4AF37] rounded-full" /> Refund Policy
+                      </a></li>
+                   </ul>
                 </div>
               </div>
 
               {/* Contact Form */}
-              <div className="bg-dark-elevated p-8 rounded-3xl border border-white/5 shadow-xl">
-                {status === 'success' ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-satvik-green rounded-full flex items-center justify-center mx-auto mb-6">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
+              <div className="md:col-span-3">
+                <div className="bg-white/5 p-10 md:p-12 rounded-[3rem] border border-white/10 shadow-2xl backdrop-blur-md">
+                  {status === 'success' ? (
+                    <div className="text-center py-16">
+                      <div className="w-20 h-20 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-[#D4AF37]/30">
+                        <svg className="w-10 h-10 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-3xl font-black text-white mb-4">Message Received</h3>
+                      <p className="text-slate-400 font-medium mb-10 max-w-sm mx-auto">
+                        Thank you for reaching out. A support specialist will contact you shortly.
+                      </p>
+                      <button 
+                        onClick={() => setStatus('idle')} 
+                        className="px-10 py-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors font-bold text-sm uppercase tracking-widest"
+                      >
+                        Send Another Message
+                      </button>
                     </div>
-                    <h3 className="text-2xl font-bold text-text-primary mb-2">Message Received!</h3>
-                    <p className="text-text-secondary mb-8">
-                      Thank you for reaching out. Our team will get back to you shortly.
-                    </p>
-                    <Button onClick={() => setStatus('idle')} variant="secondary">Send Another Message</Button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
+                          <input
+                            required
+                            type="text"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            className="w-full bg-[#0A192F] border border-white/10 rounded-2xl px-6 py-4 focus:border-[#D4AF37] outline-none transition text-white font-medium"
+                            placeholder="e.g. John Doe"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
+                          <input
+                            required
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className="w-full bg-[#0A192F] border border-white/10 rounded-2xl px-6 py-4 focus:border-[#D4AF37] outline-none transition text-white font-medium"
+                            placeholder="e.g. john@example.com"
+                          />
+                        </div>
+                      </div>
+
                       <div className="space-y-2">
-                        <label className="text-sm font-medium text-text-secondary">Full Name</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Subject</label>
                         <input
                           required
                           type="text"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-3 focus:border-satvik-green outline-none transition"
-                          placeholder="John Doe"
+                          value={formData.subject}
+                          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                          className="w-full bg-[#0A192F] border border-white/10 rounded-2xl px-6 py-4 focus:border-[#D4AF37] outline-none transition text-white font-medium"
+                          placeholder="How can we help?"
                         />
                       </div>
+
                       <div className="space-y-2">
-                        <label className="text-sm font-medium text-text-secondary">Email Address</label>
-                        <input
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Your Message</label>
+                        <textarea
                           required
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-3 focus:border-satvik-green outline-none transition"
-                          placeholder="john@example.com"
+                          rows={6}
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          className="w-full bg-[#0A192F] border border-white/10 rounded-2xl px-6 py-4 focus:border-[#D4AF37] outline-none transition text-white font-medium resize-none"
+                          placeholder="Describe your query in detail..."
                         />
                       </div>
-                    </div>
 
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-text-secondary">Phone Number (Optional)</label>
-                      <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-3 focus:border-satvik-green outline-none transition"
-                        placeholder="+91 XXXXX XXXXX"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-text-secondary">Subject</label>
-                      <input
-                        required
-                        type="text"
-                        value={formData.subject}
-                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-3 focus:border-satvik-green outline-none transition"
-                        placeholder="Inquiry about..."
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-text-secondary">Your Message</label>
-                      <textarea
-                        required
-                        rows={5}
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-3 focus:border-satvik-green outline-none transition resize-none"
-                        placeholder="Describe your query in detail..."
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={status === 'loading'}
-                      className="w-full bg-satvik-green hover:bg-satvik-green-dark text-white font-bold py-4 rounded-lg transition shadow-lg disabled:opacity-50 mt-4"
-                    >
-                      {status === 'loading' ? 'Sending Message...' : 'Send Message →'}
-                    </button>
-                    
-                    {status === 'error' && (
-                      <p className="text-urgent-red text-sm text-center mt-2">
-                        Failed to send message. Please try again or email us directly.
-                      </p>
-                    )}
-                  </form>
-                )}
+                      <button
+                        type="submit"
+                        disabled={status === 'loading'}
+                        className="w-full bg-[#D4AF37] hover:bg-[#B8962D] text-[#0A192F] font-black py-5 rounded-2xl transition shadow-xl shadow-[#D4AF37]/10 disabled:opacity-50 mt-6 tracking-widest uppercase text-sm"
+                      >
+                        {status === 'loading' ? 'Transmitting...' : 'Transmit Message →'}
+                      </button>
+                      
+                      {status === 'error' && (
+                        <p className="text-red-400 text-xs font-bold text-center mt-4">
+                          Transmission failed. Please check your connection or contact via direct email.
+                        </p>
+                      )}
+                    </form>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -191,3 +198,4 @@ export default function ContactPage() {
     </main>
   );
 }
+

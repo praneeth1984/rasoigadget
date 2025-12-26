@@ -64,6 +64,7 @@ export default function AdminDashboard() {
     productImage?: string; 
     nextOrderNumber?: string; 
     productPrice?: string;
+    sevenHabitsPrice?: string;
     gstPercentage?: string;
   }>({});
   const [isSaving, setIsSaving] = useState(false);
@@ -573,13 +574,13 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  {/* Product Price Setting */}
+                  {/* Satvik Book Price Setting */}
                   <div>
                     <label className="block text-text-secondary text-sm font-medium mb-2">
-                      Product Price (₹)
+                      Satvik Book Price (₹)
                     </label>
                     <p className="text-text-muted text-xs mb-3">
-                      Set the price for the Satvik 3-Book Collection. This will be used throughout the site.
+                      Set the price for the Satvik 3-Book Collection.
                     </p>
                     <input
                       type="number"
@@ -596,7 +597,35 @@ export default function AdminDashboard() {
                         loading={isSaving}
                         disabled={isSaving}
                       >
-                        Update Price
+                        Update Satvik Price
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* 7 Habits Price Setting */}
+                  <div>
+                    <label className="block text-text-secondary text-sm font-medium mb-2">
+                      7 Habits Price (₹)
+                    </label>
+                    <p className="text-text-muted text-xs mb-3">
+                      Set the price for the 7 Habits Reset Guide.
+                    </p>
+                    <input
+                      type="number"
+                      value={settings.sevenHabitsPrice || '299'}
+                      onChange={(e) => setSettings(prev => ({ ...prev, sevenHabitsPrice: e.target.value }))}
+                      placeholder="299"
+                      min="1"
+                      step="1"
+                      className="w-full px-4 py-3 bg-dark-surface border border-satvik-green/30 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-satvik-green transition-colors mb-4"
+                    />
+                    <div className="flex items-center gap-4">
+                      <Button 
+                        onClick={() => updateSetting('sevenHabitsPrice', settings.sevenHabitsPrice || '299')}
+                        loading={isSaving}
+                        disabled={isSaving}
+                      >
+                        Update 7 Habits Price
                       </Button>
                       {saveMessage && (
                         <span className={`text-sm font-medium ${saveMessage.includes('Failed') ? 'text-red-400' : 'text-emerald'}`}>

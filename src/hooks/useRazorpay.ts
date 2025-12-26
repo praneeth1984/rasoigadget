@@ -19,10 +19,15 @@ export const useRazorpay = () => {
       contact: string; 
       state: string;
       discountCode?: string;
-    }
+    },
+    productName?: string,
+    productDescription?: string
   ) => {
     try {
       setIsLoading(true);
+
+      const finalProductName = productName || 'Satvik 3-Book Collection';
+      const finalProductDescription = productDescription || 'The Satvik 3-Book Collection';
 
       // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
@@ -32,7 +37,7 @@ export const useRazorpay = () => {
       }
 
       // Create order
-      const orderData = await createOrder(amount, customerInfo);
+      const orderData = await createOrder(amount, customerInfo, finalProductName);
       if (!orderData.success) {
         alert('Failed to create order. Please try again.');
         return;
@@ -44,7 +49,7 @@ export const useRazorpay = () => {
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'Rasoi Gadget',
-        description: 'The Satvik 3-Book Collection',
+        description: finalProductDescription,
         order_id: orderData.orderId,
         prefill: {
           name: customerInfo?.name || '',

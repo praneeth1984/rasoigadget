@@ -12,6 +12,9 @@ interface BuyButtonProps {
   variant?: 'primary' | 'secondary';
   children: React.ReactNode;
   className?: string;
+  productName?: string;
+  productDescription?: string;
+  price?: number;
 }
 
 export default function BuyButton({
@@ -19,15 +22,27 @@ export default function BuyButton({
   variant = 'primary',
   children,
   className,
+  productName,
+  productDescription,
+  price,
 }: BuyButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [productPrice, setProductPrice] = useState(499);
+  const [productPrice, setProductPrice] = useState(price || 499);
   const { initiatePayment, isLoading, isVerifying } = useRazorpay();
 
   useEffect(() => {
-    // Fetch product price on mount
-    getProductPrice().then(setProductPrice);
-  }, []);
+    // Only fetch default price if no price is provided in props
+    if (!price) {
+      getProductPrice().then(setProductPrice);
+    }
+  }, [price]);
+
+  useEffect(() => {
+    // If price prop is provided and changes, update the internal state
+    if (price !== undefined) {
+      setProductPrice(price);
+    }
+  }, [price]);
 
   const handleBuyClick = () => {
     setIsModalOpen(true);
@@ -51,7 +66,7 @@ export default function BuyButton({
     // Track checkout initiation with the final price
     trackInitiateCheckout(finalAmount, 'INR');
     
-    await initiatePayment(finalAmount, data);
+    await initiatePayment(finalAmount, data, productName, productDescription);
   };
 
   return (

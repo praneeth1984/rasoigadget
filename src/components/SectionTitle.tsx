@@ -4,17 +4,22 @@ interface SectionTitleProps {
   children: React.ReactNode;
   subtitle?: string;
   centered?: boolean;
-  dark?: boolean;
+  colorMode?: 'dark' | 'light' | 'brand';
+  dark?: boolean; // Kept for backward compatibility
 }
 
 export default function SectionTitle({
   children,
   subtitle,
   centered = true,
-  dark = false
+  colorMode = 'dark',
+  dark = true
 }: SectionTitleProps) {
-  const textColor = dark ? 'text-white' : 'text-text-primary';
-  const subtitleColor = dark ? 'text-white/90' : 'text-text-secondary';
+  // Determine actual mode
+  const mode = colorMode || (dark ? 'dark' : 'brand');
+  
+  const textColor = mode === 'dark' ? 'text-white' : mode === 'light' ? 'text-slate-900' : 'text-text-primary';
+  const subtitleColor = mode === 'dark' ? 'text-white/90' : mode === 'light' ? 'text-slate-400' : 'text-text-secondary';
   const alignment = centered ? 'text-center' : 'text-left';
 
   return (

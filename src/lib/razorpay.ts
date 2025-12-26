@@ -42,15 +42,14 @@ export const loadRazorpayScript = (): Promise<boolean> => {
   });
 };
 
-export const createOrder = async (amount: number, customerInfo?: { name: string; email: string; contact: string; state: string }) => {
+export const createOrder = async (amount: number, customerInfo?: { name: string; email: string; contact: string; state: string }, productName?: string) => {
   const response = await fetch('/api/payment/create-order', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ amount, customerInfo }),
+    body: JSON.stringify({ amount, customerInfo, productName }),
   });
-
   return response.json();
 };
 

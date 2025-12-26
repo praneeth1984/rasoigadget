@@ -4,7 +4,8 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount, customerInfo } = await request.json();
+    const { amount, customerInfo, productName } = await request.json();
+    const finalProductName = productName || 'Satvik 3-Book Collection';
 
     // Initialize Razorpay
     const razorpay = new Razorpay({
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest) {
       currency: process.env.PRODUCT_CURRENCY || 'INR',
       receipt: `receipt_${Date.now()}`,
       notes: {
-        product: 'Satvik 3-Book Collection',
+        product: finalProductName,
       },
     });
 
@@ -64,6 +65,7 @@ export async function POST(request: NextRequest) {
             customerState: customerInfo.state || null,
             discountCode: customerInfo.discountCode || null,
             discountAmount: customerInfo.discountCode === 'SATVIK10' ? Math.round((amount / 0.9) * 0.1 * 100) : null,
+            productName: finalProductName,
             status: 'draft',
           } as any,
         });
