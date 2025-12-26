@@ -80,6 +80,9 @@ export const useRazorpay = () => {
                 orderData.currency
               );
 
+              // Save product info for success page fallback
+              localStorage.setItem('lastPurchasedProduct', finalProductName);
+
               // Redirect to success page
               router.push(
                 `/success?payment_id=${verificationData.paymentId}&order_id=${verificationData.orderId}&email=${encodeURIComponent(customerInfo?.email || options.prefill?.email || '')}`

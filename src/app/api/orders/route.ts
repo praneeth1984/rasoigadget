@@ -5,10 +5,29 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
+    const razorpayOrderId = searchParams.get('razorpay_order_id');
+
+    if (razorpayOrderId) {
+      const order = await prisma.order.findUnique({
+        where: { razorpayOrderId },
+      });
+
+      if (!order) {
+        return NextResponse.json(
+          { success: false, message: 'Order not found' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        order,
+      });
+    }
 
     if (!email) {
       return NextResponse.json(
-        { success: false, message: 'Email is required' },
+        { success: false, message: 'Email or order ID is required' },
         { status: 400 }
       );
     }
