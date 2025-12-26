@@ -35,7 +35,11 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-dark-bg">
-      <Header />
+      <Header 
+        productName="Satvik 3-Book Collection"
+        productDescription="Lose weight, boost energy & heal your gut"
+        price={productPrice}
+      />
       <FloatingCTA />
 
       {/* Hero Section - OPTIMIZED */}

@@ -3,7 +3,13 @@
 import Image from "next/image";
 import BuyButton from "./BuyButton";
 
-export default function Header() {
+interface HeaderProps {
+  productName?: string;
+  productDescription?: string;
+  price?: number;
+}
+
+export default function Header({ productName, productDescription, price }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-3">
@@ -46,15 +52,21 @@ export default function Header() {
               size="small" 
               variant="primary" 
               className="md:hidden text-xs px-3 py-1.5"
+              productName={productName}
+              productDescription={productDescription}
+              price={price}
             >
-              Get Started
+              Get Started {price ? `• ₹${price}` : ''}
             </BuyButton>
             <BuyButton 
               size="large" 
               variant="primary" 
               className="hidden md:flex"
+              productName={productName}
+              productDescription={productDescription}
+              price={price}
             >
-              Get Started
+              Get Started {price ? `• ₹${price}` : ''}
             </BuyButton>
           </div>
         </div>

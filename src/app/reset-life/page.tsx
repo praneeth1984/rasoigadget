@@ -95,7 +95,7 @@ const faqs = [
 export default function SevenHabitsLanding() {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [purchaseCount, setPurchaseCount] = useState(12450);
-  const [price, setPrice] = useState(299);
+  const [price, setPrice] = useState(199);
 
   useEffect(() => {
     // Fetch price from settings
@@ -132,7 +132,11 @@ export default function SevenHabitsLanding() {
 
   return (
     <main className="min-h-screen bg-[#0A192F] text-white selection:bg-[#00A3FF] selection:text-white font-sans antialiased overflow-x-hidden">
-      <Header />
+      <Header 
+        productName="7 Habits to Reset Your Life"
+        productDescription="The 30-day guide to peak productivity"
+        price={price}
+      />
       
       {/* Sticky Mobile CTA */}
       <div className={`fixed bottom-0 left-0 right-0 z-[100] p-4 bg-[#0A192F]/90 backdrop-blur-xl border-t border-white/10 transition-transform duration-300 transform md:hidden ${showStickyCTA ? 'translate-y-0' : 'translate-y-full'}`}>
